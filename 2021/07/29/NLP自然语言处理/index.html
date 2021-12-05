@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css" integrity="sha256-no0c5ccDODBwp+9hSmV5VvPpKwHCpbVzXHexIkupM6U=" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js" integrity="sha256-a5YRB27CcBwBFcT5EF/f3E4vzIqyHrSR878nseNYw64=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;example.com&quot;,&quot;root&quot;:&quot;&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;images&quot;,&quot;scheme&quot;:&quot;Gemini&quot;,&quot;version&quot;:&quot;8.4.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;post&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12},&quot;copycode&quot;:true,&quot;bookmark&quot;:{&quot;enable&quot;:true,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:false,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:true,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;},&quot;path&quot;:&quot;&#x2F;search.xml&quot;,&quot;localsearch&quot;:{&quot;enable&quot;:true,&quot;trigger&quot;:&quot;auto&quot;,&quot;top_n_per_article&quot;:1,&quot;unescape&quot;:false,&quot;preload&quot;:false}}</script>
+<meta name="description" content="1. 神经网络">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NLP自然语言处理">
+<meta property="og:url" content="http://example.com/2021/07/29/NLP%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/index.html">
+<meta property="og:site_name" content="坚果博客">
+<meta property="og:description" content="1. 神经网络">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/NLP%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/%E7%A5%9E%E7%BB%8F%E5%85%83.png">
+<meta property="og:image" content="http://example.com/images/NLP%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/%E5%8D%95%E5%B1%82%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C.png">
+<meta property="og:image" content="http://example.com/images/NLP%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/%E6%84%9F%E7%9F%A5%E6%9C%BA.png">
+<meta property="og:image" content="http://example.com/images/NLP%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/%E5%A4%9A%E5%B1%82%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C.png">
+<meta property="og:image" content="http://example.com/images/NLP%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B05.png">
+<meta property="article:published_time" content="2021-07-29T07:39:11.000Z">
+<meta property="article:modified_time" content="2021-08-02T08:45:18.622Z">
+<meta property="article:author" content="东">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/NLP%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/%E7%A5%9E%E7%BB%8F%E5%85%83.png">
+
+
+<link rel="canonical" href="http://example.com/2021/07/29/NLP%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;http:&#x2F;&#x2F;example.com&#x2F;2021&#x2F;07&#x2F;29&#x2F;NLP%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86&#x2F;&quot;,&quot;path&quot;:&quot;2021&#x2F;07&#x2F;29&#x2F;NLP自然语言处理&#x2F;&quot;,&quot;title&quot;:&quot;NLP自然语言处理&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title>NLP自然语言处理 | 坚果博客</title><script src="/js/config.js"></script>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">坚果博客</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">2</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">2</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">35</span></a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C"><span class="nav-text">1. 神经网络</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E7%A5%9E%E7%BB%8F%E5%85%83"><span class="nav-text">1.1 神经元</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E5%8D%95%E5%B1%82%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C"><span class="nav-text">1.2 单层神经网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-%E6%84%9F%E7%9F%A5%E6%9C%BA"><span class="nav-text">1.3 感知机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-%E5%A4%9A%E5%B1%82%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C"><span class="nav-text">1.4 多层神经网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0"><span class="nav-text">1.5 激活函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-pytorch"><span class="nav-text">2. pytorch</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-Tensor"><span class="nav-text">2.1 Tensor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E5%88%9B%E5%BB%BA%E5%BC%A0%E9%87%8F"><span class="nav-text">2.2 创建张量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-Pytorch%E4%B8%ADtensor%E7%9A%84%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><span class="nav-text">2.3 Pytorch中tensor的常用方法</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">东</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">35</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/07/29/NLP%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="东">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="坚果博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          NLP自然语言处理
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-07-29 15:39:11" itemprop="dateCreated datePublished" datetime="2021-07-29T15:39:11+08:00">2021-07-29</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-08-02 16:45:18" itemprop="dateModified" datetime="2021-08-02T16:45:18+08:00">2021-08-02</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="1-神经网络"><a href="#1-神经网络" class="headerlink" title="1. 神经网络"></a>1. 神经网络</h2><span id="more"></span>
+<h3 id="1-1-神经元"><a href="#1-1-神经元" class="headerlink" title="1.1 神经元"></a>1.1 神经元</h3><p><img src="/images/NLP%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/%E7%A5%9E%E7%BB%8F%E5%85%83.png"></p>
+<ol>
+<li>a1,a2,…,an 为各个输入的分量</li>
+<li>w1,w2,…,wn 为各个输入分量对应的权重参数</li>
+<li>b 为偏置</li>
+<li>f为<strong>激活函数</strong>，常见的激活函数有tanh，sigmoid，relu</li>
+<li>t 为神经元的输出</li>
+<li>公式表示： t = f(W^TA+b)</li>
+</ol>
+<h3 id="1-2-单层神经网络"><a href="#1-2-单层神经网络" class="headerlink" title="1.2 单层神经网络"></a>1.2 单层神经网络</h3><p><img src="/images/NLP%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/%E5%8D%95%E5%B1%82%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C.png"></p>
+<h3 id="1-3-感知机"><a href="#1-3-感知机" class="headerlink" title="1.3 感知机"></a>1.3 感知机</h3><ul>
+<li>由两层神经网络组成<br><img src="/images/NLP%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/%E6%84%9F%E7%9F%A5%E6%9C%BA.png"></li>
+</ul>
+<h3 id="1-4-多层神经网络"><a href="#1-4-多层神经网络" class="headerlink" title="1.4 多层神经网络"></a>1.4 多层神经网络</h3><ul>
+<li>输入层</li>
+<li>输出层</li>
+<li>隐层</li>
+<li>全连接层<br><img src="/images/NLP%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/%E5%A4%9A%E5%B1%82%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C.png"></li>
+</ul>
+<h3 id="1-5-激活函数"><a href="#1-5-激活函数" class="headerlink" title="1.5 激活函数"></a>1.5 激活函数</h3><ul>
+<li><p>作用</p>
+<ol>
+<li>增加模型的非线性分割能力</li>
+<li>提供模型的稳健性</li>
+<li>缓解梯度消失</li>
+<li>加速模型的收敛</li>
+</ol>
+</li>
+<li><p>常见的激活函数<br><img src="/images/NLP%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B05.png"></p>
+</li>
+<li><p>sigmoid 只会输出正数，以及靠近0的输出变化率最大</p>
+</li>
+<li><p>tanh和sigmoid不同的是，tanh输出可以是负数</p>
+</li>
+<li><p>Relu是输入只能大于0,如果你输入含有负数，Relu就不适合，如果你的输入是图片格式，Relu就挺常用的，因为图片的像素值作为输入时取值为[0,255]。</p>
+<h2 id="2-pytorch"><a href="#2-pytorch" class="headerlink" title="2. pytorch"></a>2. pytorch</h2></li>
+<li><p>安装:<a target="_blank" rel="noopener" href="https://pytorch.org/get-started/locally/">https://pytorch.org/get-started/locally/</a></p>
+</li>
+<li><p>安装:jupyter notebook</p>
+<h3 id="2-1-Tensor"><a href="#2-1-Tensor" class="headerlink" title="2.1 Tensor"></a>2.1 Tensor</h3></li>
+<li><p>各种数值数据称为张量</p>
+</li>
+<li><p>常数：scaler：0阶张量</p>
+</li>
+<li><p>向量：vector：1阶张量</p>
+</li>
+<li><p>矩阵：matrix：2阶张量</p>
+</li>
+</ul>
+<h3 id="2-2-创建张量"><a href="#2-2-创建张量" class="headerlink" title="2.2 创建张量"></a>2.2 创建张量</h3><ol>
+<li><p>python列表或序列</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">torch.tensor([[<span class="number">1.</span>, -<span class="number">1.</span>], [<span class="number">1.</span>, -<span class="number">1.</span>]])</span><br><span class="line">tensor([[ <span class="number">1.0000</span>, -<span class="number">1.0000</span>],</span><br><span class="line">        [ <span class="number">1.0000</span>, -<span class="number">1.0000</span>]])</span><br></pre></td></tr></table></figure></li>
+<li><p>numpy中的数组</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">torch.tensor(np.array([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]]))</span><br><span class="line">tensor([[ <span class="number">1</span>,  <span class="number">2</span>,  <span class="number">3</span>],</span><br><span class="line">        [ <span class="number">4</span>,  <span class="number">5</span>,  <span class="number">6</span>]])</span><br></pre></td></tr></table></figure></li>
+<li><p>torch的api</p>
+<ol>
+<li><p><code>torch.empty(3,4)</code>创建3行4列的空的tensor，会用无用数据进行填充</p>
+</li>
+<li><p><code>torch.ones([3,4])</code> 创建3行4列的<strong>全为1</strong>的tensor</p>
+</li>
+<li><p><code>torch.zeros([3,4])</code>创建3行4列的<strong>全为0</strong>的tensor</p>
+</li>
+<li><p><code>torch.rand([3,4])</code> 创建3行4列的<strong>随机值</strong>的tensor，随机值的区间是<code>[0, 1)</code></p>
+</li>
+<li><p><code>torch.randint(low=0,high=10,size=[3,4])</code> 创建3行4列的<strong>随机整数</strong>的tensor，随机值的区间是<code>[low, high)</code></p>
+</li>
+<li><p><code>torch.randn([3,4])</code> 创建3行4列的<strong>随机数</strong>的tensor，随机值的分布式均值为0，方差为1</p>
+<h3 id="2-3-Pytorch中tensor的常用方法"><a href="#2-3-Pytorch中tensor的常用方法" class="headerlink" title="2.3 Pytorch中tensor的常用方法"></a>2.3 Pytorch中tensor的常用方法</h3></li>
+</ol>
+</li>
+<li><p>获取tensor中的数据(当tensor中只有一个元素可用)：<code>tensor对象.item()</code></p>
+</li>
+<li><p>转化为numpy数组:<code>tensor对象.numpy()</code></p>
+</li>
+<li><p>获取形状：<code>tensor.size()</code></p>
+</li>
+<li><p>获取阶数：<code>tensor.dim()</code></p>
+</li>
+<li><p>形状改变：<code>tensor.view((3,4))</code></p>
+</li>
+<li><p>获取最大值：<code>tensor.max()</code></p>
+</li>
+<li><p>转置：<code>tensor.t()</code></p>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/07/29/%E6%95%B0%E6%8D%AE/" rel="prev" title="数据">
+                  <i class="fa fa-chevron-left"></i> 数据
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/07/30/vmware/" rel="next" title="数据">
+                  数据 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+<script src="/js/comments.js"></script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">东</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="https://cdn.jsdelivr.net/npm/ribbon.js@1.0.2/dist/ribbon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  <script class="next-config" data-name="nprogress" type="application/json">{&quot;enable&quot;:true,&quot;spinner&quot;:true}</script>
+  <script src="/js/third-party/nprogress.js"></script>
+
+  
+
+
+
+
+
+</body>
+</html>

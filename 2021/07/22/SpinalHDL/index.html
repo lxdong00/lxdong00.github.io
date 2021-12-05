@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css" integrity="sha256-no0c5ccDODBwp+9hSmV5VvPpKwHCpbVzXHexIkupM6U=" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js" integrity="sha256-a5YRB27CcBwBFcT5EF/f3E4vzIqyHrSR878nseNYw64=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;example.com&quot;,&quot;root&quot;:&quot;&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;images&quot;,&quot;scheme&quot;:&quot;Gemini&quot;,&quot;version&quot;:&quot;8.4.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;post&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12},&quot;copycode&quot;:true,&quot;bookmark&quot;:{&quot;enable&quot;:true,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:false,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:true,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;},&quot;path&quot;:&quot;&#x2F;search.xml&quot;,&quot;localsearch&quot;:{&quot;enable&quot;:true,&quot;trigger&quot;:&quot;auto&quot;,&quot;top_n_per_article&quot;:1,&quot;unescape&quot;:false,&quot;preload&quot;:false}}</script>
+<meta name="description" content="1. 数据类型 基本类型">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpinalHDL">
+<meta property="og:url" content="http://example.com/2021/07/22/SpinalHDL/index.html">
+<meta property="og:site_name" content="坚果博客">
+<meta property="og:description" content="1. 数据类型 基本类型">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-07-22T07:32:35.000Z">
+<meta property="article:modified_time" content="2021-08-19T02:41:20.916Z">
+<meta property="article:author" content="东">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2021/07/22/SpinalHDL/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;http:&#x2F;&#x2F;example.com&#x2F;2021&#x2F;07&#x2F;22&#x2F;SpinalHDL&#x2F;&quot;,&quot;path&quot;:&quot;2021&#x2F;07&#x2F;22&#x2F;SpinalHDL&#x2F;&quot;,&quot;title&quot;:&quot;SpinalHDL&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title>SpinalHDL | 坚果博客</title><script src="/js/config.js"></script>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">坚果博客</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">2</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">2</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">35</span></a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-text">1. 数据类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E6%9E%84%E5%BB%BA"><span class="nav-text">2. 构建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E7%BB%84%E4%BB%B6%E5%92%8C%E5%B1%82%E6%AC%A1%E7%BB%93%E6%9E%84"><span class="nav-text">2.1 组件和层次结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-Area"><span class="nav-text">2.3 Area</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-%E5%87%BD%E6%95%B0"><span class="nav-text">2.4 函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-%E6%97%B6%E9%92%9F%E5%9F%9F"><span class="nav-text">2.5 时钟域</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E2%91%A0-%E5%AE%9E%E4%BE%8B"><span class="nav-text">① 实例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E2%91%A1%E8%B7%A8%E6%97%B6%E9%92%9F%E5%9F%9F"><span class="nav-text">②跨时钟域</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%91%A2-%E7%89%B9%E6%AE%8A%E7%9A%84%E6%97%B6%E9%92%9F%E5%8C%BA%E5%9F%9F"><span class="nav-text">③ 特殊的时钟区域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-verilog-%E5%AE%9E%E4%BE%8B%E5%8C%96"><span class="nav-text">2.6 verilog 实例化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-7-%E4%BF%9D%E7%95%99%E5%90%8D"><span class="nav-text">2.7 保留名</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E8%AF%AD%E4%B9%89"><span class="nav-text">3. 语义</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E8%B5%8B%E5%80%BC"><span class="nav-text">3.1 赋值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-When-Switch-Mux"><span class="nav-text">3.2 When&#x2F;Switch&#x2F;Mux</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-%E8%A7%84%E5%88%99"><span class="nav-text">3.3 规则</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E6%97%B6%E5%BA%8F%E9%80%BB%E8%BE%91"><span class="nav-text">4. 时序逻辑</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-%E5%AF%84%E5%AD%98%E5%99%A8"><span class="nav-text">4.1 寄存器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-RAM-ROM"><span class="nav-text">4.2 RAM&#x2F;ROM</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%BB%E5%86%99%E5%86%B2%E7%AA%81%E7%AD%96%E7%95%A5"><span class="nav-text">读写冲突策略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E8%AE%BE%E8%AE%A1%E6%8A%A5%E9%94%99"><span class="nav-text">5.设计报错</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">东</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">35</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/07/22/SpinalHDL/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="东">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="坚果博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SpinalHDL
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-07-22 15:32:35" itemprop="dateCreated datePublished" datetime="2021-07-22T15:32:35+08:00">2021-07-22</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-08-19 10:41:20" itemprop="dateModified" datetime="2021-08-19T10:41:20+08:00">2021-08-19</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="1-数据类型"><a href="#1-数据类型" class="headerlink" title="1. 数据类型"></a>1. 数据类型</h2><ul>
+<li>基本类型<span id="more"></span>
+<ol>
+<li>Bool <!-- - 声明:val myB = Bool()
+ - 操作
+     - 逻辑
+         - 与、或、非、异或
+         - .set()、.clear()
+         - .setWhen()、.clearWhen()
+         - .riseWhen、.fallWhen()
+     - 边缘:edge()、rise()、fall()、edges()
+     - 比较
+     - 类型转换
+     - 拼接 --></li>
+<li>Bits</li>
+<li>UInt</li>
+<li>SInt</li>
+<li>Enum</li>
+</ol>
+</li>
+<li>复合类型  <ol>
+<li>Bundle</li>
+<li>Vec</li>
+</ol>
+</li>
+</ul>
+<h2 id="2-构建"><a href="#2-构建" class="headerlink" title="2. 构建"></a>2. 构建</h2><h3 id="2-1-组件和层次结构"><a href="#2-1-组件和层次结构" class="headerlink" title="2.1 组件和层次结构"></a>2.1 组件和层次结构</h3><ul>
+<li><p>输入输出定义</p>
+<ul>
+<li>in Bool() / out Bool()</li>
+<li>in/out Bits/UInt/SInt[(x bit)]</li>
+<li>in/out(T)</li>
+<li>master/slave(T)</li>
+</ul>
+</li>
+<li><p>修剪信号</p>
+<ul>
+<li>显示无用信号：SpinalVerilog(*).printPruned()</li>
+<li>RTL中保留修剪信号：信号.keep()</li>
+</ul>
+</li>
+<li><p>参数化组件</p>
+<ul>
+<li>通过类传递位宽或配置类</li>
+</ul>
+</li>
+<li><p>综合后组件名称</p>
+<ul>
+<li>setName</li>
+<li>getName</li>
+<li>setPartialName</li>
+<li>getPartialName</li>
+<li>setDefinitionName</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-3-Area"><a href="#2-3-Area" class="headerlink" title="2.3 Area"></a>2.3 Area</h3><ul>
+<li><p>格式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// 定义一些逻辑</span><br><span class="line">val timer = new Area &#123;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-4-函数"><a href="#2-4-函数" class="headerlink" title="2.4 函数"></a>2.4 函数</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// Input RGB color</span><br><span class="line">val r, g, b = UInt(8 bits)</span><br><span class="line"></span><br><span class="line">// Define a function to multiply a UInt by a Scala Float value.</span><br><span class="line">def coef(value: UInt, by: Float): UInt = (value * U((255 * by).toInt, 8 bits) &gt;&gt; 8)</span><br><span class="line"></span><br><span class="line">// Calculate the gray level</span><br><span class="line">val gray = coef(r, 0.3f) + coef(g, 0.4f) + coef(b, 0.3f)</span><br></pre></td></tr></table></figure>
+<h3 id="2-5-时钟域"><a href="#2-5-时钟域" class="headerlink" title="2.5 时钟域"></a>2.5 时钟域</h3><h4 id="①-实例"><a href="#①-实例" class="headerlink" title="① 实例"></a>① 实例</h4></li>
+<li><p>时钟域语法</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ClockDomain</span>(</span><br><span class="line">  clock: <span class="type">Bool</span></span><br><span class="line">  [,reset: <span class="type">Bool</span>]</span><br><span class="line">  [,softReset: <span class="type">Bool</span>]</span><br><span class="line">  [,clockEnable: <span class="type">Bool</span>]</span><br><span class="line">  [,frequency: <span class="type">IClockDomainFrequency</span>]</span><br><span class="line">  [,config: <span class="type">ClockDomainConfig</span>]</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th align="center">参数</th>
+<th align="center">描述</th>
+<th align="center">默认</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">clock</td>
+<td align="center">是否定义时钟信号</td>
+<td align="center">无</td>
+</tr>
+<tr>
+<td align="center">reset</td>
+<td align="center">复位信号，若存在需要复位的寄存器而时钟域未提供则会报错</td>
+<td align="center">无</td>
+</tr>
+<tr>
+<td align="center">softReset</td>
+<td align="center">同步复位</td>
+<td align="center">无</td>
+</tr>
+<tr>
+<td align="center">clockEnable</td>
+<td align="center">禁用整个时钟域上的时钟</td>
+<td align="center">无</td>
+</tr>
+<tr>
+<td align="center">frequency</td>
+<td align="center">指定时钟频率</td>
+<td align="center">UnknownFrequency</td>
+</tr>
+<tr>
+<td align="center">config</td>
+<td align="center">指定信号的极性和复位性质</td>
+<td align="center">当前的配置</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>通过ClockDomainConfig配置ClockDomain</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 以下也为时钟域的默认设置</span><br><span class="line">val defaultCC = ClockDomainConfig(</span><br><span class="line">  clockEdge        = RISING,</span><br><span class="line">  resetKind        = ASYNC,</span><br><span class="line">  resetActiveLevel = HIGH</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th align="center">属性</th>
+<th align="center">有效值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">clockEdge</td>
+<td align="center">RISING, FALLING</td>
+</tr>
+<tr>
+<td align="center">resetKind</td>
+<td align="center">ASYNC,SYNC,BOOT</td>
+</tr>
+<tr>
+<td align="center">resetActiveLevel</td>
+<td align="center">HIGH, LOW</td>
+</tr>
+<tr>
+<td align="center">softResetActiveLevel</td>
+<td align="center">HIGH, LOW</td>
+</tr>
+<tr>
+<td align="center">clockEnableActiveLevel</td>
+<td align="center">HIGH, LOW</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>内部时钟</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ClockDomain</span>.internal(</span><br><span class="line">  name: <span class="type">String</span>,</span><br><span class="line">  [config: <span class="type">ClockDomainConfig</span>,]</span><br><span class="line">  [withReset: <span class="type">Boolean</span>,]</span><br><span class="line">  [withSoftReset: <span class="type">Boolean</span>,]</span><br><span class="line">  [withClockEnable: <span class="type">Boolean</span>,]</span><br><span class="line">  [frequency: <span class="type">IClockDomainFrequency</span>]</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th align="center">参数</th>
+<th align="center">描述</th>
+<th align="center">默认</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">name</td>
+<td align="center">时钟和复位信号的名称</td>
+<td align="center">无</td>
+</tr>
+<tr>
+<td align="center">config</td>
+<td align="center">指定信号的极性和复位的性质</td>
+<td align="center">当前配置</td>
+</tr>
+<tr>
+<td align="center">withReset</td>
+<td align="center">复位信号</td>
+<td align="center">true</td>
+</tr>
+<tr>
+<td align="center">withSoftReset</td>
+<td align="center">软复位信号</td>
+<td align="center">false</td>
+</tr>
+<tr>
+<td align="center">withClockEnable</td>
+<td align="center">添加时钟使能</td>
+<td align="center">false</td>
+</tr>
+<tr>
+<td align="center">frequency</td>
+<td align="center">时钟频率</td>
+<td align="center">未知频率</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<ul>
+<li><p>外部时钟</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ClockDomain</span>.external(</span><br><span class="line">  name: <span class="type">String</span>,</span><br><span class="line">  [config: <span class="type">ClockDomainConfig</span>,]</span><br><span class="line">  [withReset: <span class="type">Boolean</span>,]</span><br><span class="line">  [withSoftReset: <span class="type">Boolean</span>,]</span><br><span class="line">  [withClockEnable: <span class="type">Boolean</span>,]</span><br><span class="line">  [frequency: <span class="type">IClockDomainFrequency</span>]</span><br><span class="line">)</span><br></pre></td></tr></table></figure></li>
+<li><p>获取当前时钟信息ClockDomain.current</p>
+</li>
+</ul>
+<h4 id="②跨时钟域"><a href="#②跨时钟域" class="headerlink" title="②跨时钟域"></a>②跨时钟域</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">val area_clkA = new ClockingArea(ClockDomain(io.clkA,io.rstA)) &#123;</span><br><span class="line">  val reg = RegNext(io.dataIn) init(False)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 2 register stages to avoid metastability issues</span><br><span class="line">val area_clkB = new ClockingArea(ClockDomain(io.clkB,io.rstB)) &#123;</span><br><span class="line">  val buf0   = RegNext(area_clkA.reg) init(False) addTag(crossClockDomain)//获取了area_clkA时钟域中的信号</span><br><span class="line">  val buf1   = RegNext(buf0)          init(False)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="③-特殊的时钟区域"><a href="#③-特殊的时钟区域" class="headerlink" title="③ 特殊的时钟区域"></a>③ 特殊的时钟区域</h3><ul>
+<li>slow area<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Slow the current clockDomain by 4 : 25 MHz</span></span><br><span class="line">  <span class="keyword">val</span> areaDiv4 = <span class="keyword">new</span> <span class="type">SlowArea</span>(<span class="number">4</span>) &#123;</span><br><span class="line">    <span class="keyword">val</span> counter = out(<span class="type">CounterFreeRun</span>(<span class="number">16</span>).value)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Slow the current clockDomain to 50MHz</span></span><br><span class="line">  <span class="keyword">val</span> area50Mhz = <span class="keyword">new</span> <span class="type">SlowArea</span>(<span class="number">50</span> <span class="type">MHz</span>) &#123;</span><br><span class="line">    <span class="keyword">val</span> counter = out(<span class="type">CounterFreeRun</span>(<span class="number">16</span>).value)</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></li>
+<li>ResetArea<ul>
+<li>ResetArea 用于创建一个新的时钟域区域，其中一个特殊的复位信号与当前时钟域复位相结合<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TopLevel</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">val</span> specialReset = <span class="type">Bool</span>()</span><br><span class="line"></span><br><span class="line">  <span class="comment">// The reset of this area is done with the specialReset signal</span></span><br><span class="line">  <span class="keyword">val</span> areaRst_1 = <span class="keyword">new</span> <span class="type">ResetArea</span>(specialReset, <span class="literal">false</span>) &#123;</span><br><span class="line">    <span class="keyword">val</span> counter = out(<span class="type">CounterFreeRun</span>(<span class="number">16</span>).value)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// The reset of this area is a combination between the current reset and the specialReset</span></span><br><span class="line">  <span class="keyword">val</span> areaRst_2 = <span class="keyword">new</span> <span class="type">ResetArea</span>(specialReset, <span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="keyword">val</span> counter = out(<span class="type">CounterFreeRun</span>(<span class="number">16</span>).value)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>ClockEnableArea<ul>
+<li>ClockEnableArea 用于在当前时钟域中添加额外的时钟使能：<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TopLevel</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">val</span> clockEnable = <span class="type">Bool</span>()</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Add a clock enable for this area</span></span><br><span class="line">  <span class="keyword">val</span> area_1 = <span class="keyword">new</span> <span class="type">ClockEnableArea</span>(clockEnable) &#123;</span><br><span class="line">    <span class="keyword">val</span> counter = out(<span class="type">CounterFreeRun</span>(<span class="number">16</span>).value)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h3 id="2-6-verilog-实例化"><a href="#2-6-verilog-实例化" class="headerlink" title="2.6 verilog 实例化"></a>2.6 verilog 实例化</h3><ul>
+<li>黑盒<ul>
+<li>黑盒允许用户通过指定其接口将现有的 VHDL/Verilog 组件集成到设计中。 由模拟器或合成器来正确地进行细化。</li>
+<li>定义：class 名字 extend BlackBox</li>
+</ul>
+</li>
+<li>泛型<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Ram</span>(<span class="params">wordWidth: <span class="type">Int</span>, wordCount: <span class="type">Int</span></span>) <span class="keyword">extends</span> <span class="title">BlackBox</span> </span>&#123;</span><br><span class="line">    addGeneric(<span class="string">&quot;wordCount&quot;</span>, wordCount)</span><br><span class="line">    addGeneric(<span class="string">&quot;wordWidth&quot;</span>, wordWidth)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// OR</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> generic = <span class="keyword">new</span> <span class="type">Generic</span> &#123;</span><br><span class="line">      <span class="keyword">val</span> wordCount = <span class="type">Ram</span>.<span class="keyword">this</span>.wordCount</span><br><span class="line">      <span class="keyword">val</span> wordWidth = <span class="type">Ram</span>.<span class="keyword">this</span>.wordWidth</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li>实例化黑盒<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 实例化黑盒</span></span><br><span class="line"> <span class="keyword">val</span> ram = <span class="keyword">new</span> <span class="type">Ram_1w_1r</span>(<span class="number">8</span>,<span class="number">16</span>)</span><br><span class="line"></span><br><span class="line"> <span class="comment">// 连接所有的信号</span></span><br><span class="line"> io.wr.en   &lt;&gt; ram.io.wr.en</span><br><span class="line"> io.wr.addr &lt;&gt; ram.io.wr.addr</span><br><span class="line"> io.wr.data &lt;&gt; ram.io.wr.data</span><br><span class="line"> io.rd.en   &lt;&gt; ram.io.rd.en</span><br><span class="line"> io.rd.addr &lt;&gt; ram.io.rd.addr</span><br><span class="line"> io.rd.data &lt;&gt; ram.io.rd.data</span><br></pre></td></tr></table></figure></li>
+<li>时钟和重置映射<ul>
+<li>使用mapCurrentClockDomain和mapClockDomain函数</li>
+<li>mapClockDomain参数列表<table>
+<thead>
+<tr>
+<th align="center">名称</th>
+<th align="center">类型</th>
+<th align="center">默认</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">clockDomain</td>
+<td align="center">ClockDomain</td>
+<td align="center">ClockDomain.current</td>
+<td align="center">指定提供信号的时钟</td>
+</tr>
+<tr>
+<td align="center">clock</td>
+<td align="center">Bool</td>
+<td align="center">无</td>
+<td align="center">连接到时钟clock</td>
+</tr>
+<tr>
+<td align="center">reset</td>
+<td align="center">Bool</td>
+<td align="center">无</td>
+<td align="center">连接到时钟reset</td>
+</tr>
+<tr>
+<td align="center">enable</td>
+<td align="center">Bool</td>
+<td align="center">无</td>
+<td align="center">连接到时钟enable</td>
+</tr>
+</tbody></table>
+</li>
+<li>例子<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyRam</span>(<span class="params">clkDomain: <span class="type">ClockDomain</span></span>) <span class="keyword">extends</span> <span class="title">BlackBox</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">val</span> io = <span class="keyword">new</span> <span class="type">Bundle</span> &#123;</span><br><span class="line">    <span class="keyword">val</span> clkA = in <span class="type">Bool</span>()</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">val</span> clkB = in <span class="type">Bool</span>()</span><br><span class="line">    ...</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Clock A is map on a specific clock Domain</span></span><br><span class="line">  mapClockDomain(clkDomain, io.clkA)</span><br><span class="line">  <span class="comment">// Clock B is map on the current clock domain</span></span><br><span class="line">  mapCurrentClockDomain(io.clkB)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>io 前缀<ul>
+<li>noIoPrefix()函数可以消除io前缀</li>
+</ul>
+</li>
+<li>重命名黑盒所有io<ul>
+<li>addPrePopTask(() =&gt; renameIO())当黑盒被创建后执行renameIo方法</li>
+</ul>
+</li>
+<li>添加rtl资源<ul>
+<li>addRTLPath(“./rtl/RegisterBank.v”)   - 在组件内部 </li>
+<li>report.mergeRTLSource(“mergeRTL”) -report为SpinalVerilog对象</li>
+</ul>
+</li>
+<li>VHDL-无数字类型</li>
+</ul>
+<h3 id="2-7-保留名"><a href="#2-7-保留名" class="headerlink" title="2.7 保留名"></a>2.7 保留名</h3><ul>
+<li>可命名的基础类<ul>
+<li>Component</li>
+<li>Area</li>
+<li>Data</li>
+<li>例子<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyComponent</span> <span class="keyword">extends</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">  <span class="keyword">val</span> a, b, c, d = <span class="type">Bool</span>()</span><br><span class="line">  b.setName(<span class="string">&quot;rawrr&quot;</span>) <span class="comment">// 强制命名</span></span><br><span class="line">  c.setName(<span class="string">&quot;rawrr&quot;</span>, weak = <span class="literal">true</span>) <span class="comment">// 提出命名，若这个强制命名的名称已被使用则此命名不会生效</span></span><br><span class="line">  d.setCompositeName(b, postfix = <span class="string">&quot;wuff&quot;</span>) <span class="comment">// 等效于 b.getName() + _wuff&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>从scala中提取名称<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//spinal.idslplugin.ValCallback is the Scala compiler plugin feature which will provide the callbacks</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Component</span> <span class="keyword">extends</span> <span class="title">spinal</span>.<span class="title">idslplugin</span>.<span class="title">ValCallback</span></span>&#123;</span><br><span class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">valCallback</span></span>[<span class="type">T</span>](ref: <span class="type">T</span>, name: <span class="type">String</span>) : <span class="type">T</span> = &#123;</span><br><span class="line">    println(<span class="string">s&quot;Got <span class="subst">$ref</span> named <span class="subst">$name</span>&quot;</span>) <span class="comment">// Here we just print what we got as a demo.</span></span><br><span class="line">    ref</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UInt</span></span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bits</span></span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyComponent</span> <span class="keyword">extends</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">  <span class="keyword">val</span> two = <span class="number">2</span></span><br><span class="line">  <span class="keyword">val</span> wuff = <span class="string">&quot;miaou&quot;</span></span><br><span class="line">  <span class="keyword">val</span> toto = <span class="keyword">new</span> <span class="type">UInt</span></span><br><span class="line">  <span class="keyword">val</span> rawrr = <span class="keyword">new</span> <span class="type">Bits</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">Debug3</span> <span class="keyword">extends</span> <span class="title">App</span></span>&#123;</span><br><span class="line">  <span class="keyword">new</span> <span class="type">MyComponent</span>()</span><br><span class="line">  <span class="comment">// ^ This will print :</span></span><br><span class="line">  <span class="comment">// Got 2 named two</span></span><br><span class="line">  <span class="comment">// Got miaou named wuff</span></span><br><span class="line">  <span class="comment">// Got spinal.tester.code.sandbox.UInt@691a7f8f named toto</span></span><br><span class="line">  <span class="comment">// Got spinal.tester.code.sandbox.Bits@161b062a named rawrr</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>组件中的Area<ul>
+<li>val logic = new Area{} 内部的变量都是logic_前缀</li>
+</ul>
+</li>
+<li>函数中的Area<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">isZero</span></span>(value: <span class="type">UInt</span>) = <span class="keyword">new</span> <span class="type">Area</span> &#123;</span><br><span class="line">    <span class="keyword">val</span> comparator = value === <span class="number">0</span></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></li>
+<li>函数中的Composite<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">isZero</span></span>(value: <span class="type">UInt</span>) = <span class="keyword">new</span> <span class="type">Composite</span>(value) &#123;</span><br><span class="line">  <span class="keyword">val</span> comparator = value === <span class="number">0</span></span><br><span class="line">&#125;.comparator </span><br></pre></td></tr></table></figure></li>
+<li>Composite chains 将Composite函数嵌套使用</li>
+<li>Composite in a Bundle’s function 不会</li>
+<li>未命名信号处理<ul>
+<li><em>zz</em> + drivenSignal.getName()</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-语义"><a href="#3-语义" class="headerlink" title="3. 语义"></a>3. 语义</h2><h3 id="3-1-赋值"><a href="#3-1-赋值" class="headerlink" title="3.1 赋值"></a>3.1 赋值</h3><ul>
+<li>符号<ul>
+<li>:= 等价于 &lt;=</li>
+<li>= 等价于 =</li>
+<li> &lt;&gt; 信号连接</li>
+</ul>
+</li>
+<li>宽度检测<ul>
+<li>x := y.resized</li>
+<li>x := y.resize(newWidth)</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-2-When-Switch-Mux"><a href="#3-2-When-Switch-Mux" class="headerlink" title="3.2 When/Switch/Mux"></a>3.2 When/Switch/Mux</h3><ul>
+<li><p>when</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">when(cond1) &#123;</span><br><span class="line">  <span class="comment">// Execute when cond1 is true</span></span><br><span class="line">&#125;.elsewhen(cond2) &#123;</span><br><span class="line">  <span class="comment">// Execute when (not cond1) and cond2</span></span><br><span class="line">&#125;.otherwise &#123;</span><br><span class="line">  <span class="comment">// Execute when (not cond1) and (not cond2)</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>switch</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">switch(x) &#123;</span><br><span class="line">  is(value1) &#123;</span><br><span class="line">    <span class="comment">// Execute when x === value1</span></span><br><span class="line">  &#125;</span><br><span class="line">  is(value2) &#123;</span><br><span class="line">    <span class="comment">// Execute when x === value2</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">default</span> &#123;</span><br><span class="line">    <span class="comment">// Execute if none of precedent conditions met</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>Mux</p>
+<ul>
+<li>Mux(cond,whenTrue,whenFalse)</li>
+<li>cond ? whenTrue|whenFalse</li>
+</ul>
+</li>
+<li><p>bitwise(选择器)</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> bitwiseSelect = <span class="type">UInt</span>(<span class="number">2</span> bits)</span><br><span class="line"><span class="keyword">val</span> bitwiseResult = bitwiseSelect.mux(</span><br><span class="line">  <span class="comment">// 两位有三种情况</span></span><br><span class="line">  <span class="number">0</span> -&gt; (io.src0 &amp; io.src1),</span><br><span class="line">  <span class="number">1</span> -&gt; (io.src0 | io.src1),</span><br><span class="line">  <span class="number">2</span> -&gt; (io.src0 ^ io.src1),</span><br><span class="line">  <span class="keyword">default</span> -&gt; (io.src0)</span><br><span class="line">)</span><br><span class="line">===================</span><br><span class="line">muxLists(...)不会</span><br><span class="line"><span class="keyword">val</span> sel  = <span class="type">UInt</span>(<span class="number">2</span> bits)</span><br><span class="line"><span class="keyword">val</span> data = <span class="type">Bits</span>(<span class="number">128</span> bits)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Dividing a wide Bits type into smaller chunks, using a mux:</span></span><br><span class="line"><span class="keyword">val</span> dataWord = sel.muxList(<span class="keyword">for</span> (index &lt;- <span class="number">0</span> until <span class="number">4</span>) <span class="keyword">yield</span> (index, data(index*<span class="number">32</span>+<span class="number">32</span><span class="number">-1</span> downto index*<span class="number">32</span>)))</span><br><span class="line"></span><br><span class="line"><span class="comment">// A shorter way to do the same thing:</span></span><br><span class="line"><span class="keyword">val</span> dataWord = data.subdivideIn(<span class="number">32</span> bits)(sel)</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="3-3-规则"><a href="#3-3-规则" class="headerlink" title="3.3 规则"></a>3.3 规则</h3><ul>
+<li>并发<ul>
+<li>分配信号的顺序对行为没有影响</li>
+</ul>
+</li>
+</ul>
+<h2 id="4-时序逻辑"><a href="#4-时序逻辑" class="headerlink" title="4. 时序逻辑"></a>4. 时序逻辑</h2><h3 id="4-1-寄存器"><a href="#4-1-寄存器" class="headerlink" title="4.1 寄存器"></a>4.1 寄存器</h3><ul>
+<li><p>定义寄存器</p>
+<ul>
+<li>Reg(type:Data)</li>
+<li>RegInit(ResetValue:Data)</li>
+<li>RegNext(nextValue:Data)</li>
+<li>RegNextWhen(nextValue:data,cond:Bool)</li>
+<li><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 无符号4比特寄存器</span></span><br><span class="line"><span class="keyword">val</span> reg1 = <span class="type">Reg</span>(<span class="type">UInt</span>(<span class="number">4</span> bit))</span><br><span class="line"></span><br><span class="line"><span class="comment">// 每个周期获取reg1+1的值</span></span><br><span class="line"><span class="keyword">val</span> reg2 = <span class="type">RegNext</span>(reg1 + <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 4比特无符号寄存器，重置信号产生则重置为0</span></span><br><span class="line"><span class="keyword">val</span> reg3 = <span class="type">RegInit</span>(<span class="type">U</span><span class="string">&quot;0000&quot;</span>)</span><br><span class="line">reg3 := reg2</span><br><span class="line">when(reg2 === <span class="number">5</span>) &#123;</span><br><span class="line">  reg3 := <span class="number">0xF</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 当cond为真时获取reg3的值</span></span><br><span class="line"><span class="keyword">val</span> reg4 = <span class="type">RegNextWhen</span>(reg3, cond)</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>重置</p>
+<ul>
+<li>调用init方法 val reg1 = Reg(UInt(4 bit)) init(0)</li>
+<li>randBoot初始化随机数</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-2-RAM-ROM"><a href="#4-2-RAM-ROM" class="headerlink" title="4.2 RAM/ROM"></a>4.2 RAM/ROM</h3><ul>
+<li>实例化<ul>
+<li>创建RAM：Mem(type:Data,size:Int) </li>
+<li>创建ROM：Mem(type:Data,initialContent : Array[Data])</li>
+</ul>
+</li>
+<li><h2 id="读写冲突策略"><a href="#读写冲突策略" class="headerlink" title="读写冲突策略"></a>读写冲突策略</h2><table>
+<thead>
+<tr>
+<th align="center">种类</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">dontCare</td>
+<td align="center">不关心读出的值</td>
+</tr>
+<tr>
+<td align="center">readFirst</td>
+<td align="center">读旧的数据</td>
+</tr>
+<tr>
+<td align="center">writeFirst</td>
+<td align="center">读新的数据</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h2 id="5-设计报错"><a href="#5-设计报错" class="headerlink" title="5.设计报错"></a>5.设计报错</h2>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/07/20/scala/" rel="prev" title="scala">
+                  <i class="fa fa-chevron-left"></i> scala
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/07/26/ubuntu/" rel="next" title="ubuntu">
+                  ubuntu <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+<script src="/js/comments.js"></script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">东</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="https://cdn.jsdelivr.net/npm/ribbon.js@1.0.2/dist/ribbon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  <script class="next-config" data-name="nprogress" type="application/json">{&quot;enable&quot;:true,&quot;spinner&quot;:true}</script>
+  <script src="/js/third-party/nprogress.js"></script>
+
+  
+
+
+
+
+
+</body>
+</html>

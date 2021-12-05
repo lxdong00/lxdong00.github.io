@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css" integrity="sha256-no0c5ccDODBwp+9hSmV5VvPpKwHCpbVzXHexIkupM6U=" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js" integrity="sha256-a5YRB27CcBwBFcT5EF/f3E4vzIqyHrSR878nseNYw64=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;example.com&quot;,&quot;root&quot;:&quot;&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;images&quot;,&quot;scheme&quot;:&quot;Gemini&quot;,&quot;version&quot;:&quot;8.4.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;post&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12},&quot;copycode&quot;:true,&quot;bookmark&quot;:{&quot;enable&quot;:true,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:false,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:true,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;},&quot;path&quot;:&quot;&#x2F;search.xml&quot;,&quot;localsearch&quot;:{&quot;enable&quot;:true,&quot;trigger&quot;:&quot;auto&quot;,&quot;top_n_per_article&quot;:1,&quot;unescape&quot;:false,&quot;preload&quot;:false}}</script>
+<meta name="description" content="1. 误差1.1 绝对误差">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数值分析">
+<meta property="og:url" content="http://example.com/2021/10/12/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="坚果博客">
+<meta property="og:description" content="1. 误差1.1 绝对误差">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E7%BB%9D%E5%AF%B9%E8%AF%AF%E5%B7%AE.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E7%9B%B8%E5%AF%B9%E8%AF%AF%E5%B7%AE.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E6%9C%89%E6%95%88%E6%95%B0%E5%AD%972.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E6%9C%89%E6%95%88%E6%95%B0%E5%AD%97%E5%92%8C%E7%9B%B8%E5%AF%B9%E8%AF%AF%E5%B7%AE%E7%9A%84%E5%85%B3%E7%B3%BB.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E9%A1%BA%E5%BA%8F%E9%AB%98%E6%96%AF%E6%B6%88%E5%85%83%E6%B3%95%E8%AE%A1%E7%AE%97%E9%87%8F.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E9%AB%98%E6%96%AF%E6%B6%88%E5%8E%BB%E6%B3%95%E7%9F%A9%E9%98%B5%E8%BF%90%E7%AE%971.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E9%AB%98%E6%96%AF%E6%B6%88%E5%8E%BB%E6%B3%95%E7%9F%A9%E9%98%B5%E8%BF%90%E7%AE%972.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/Doolittle%E5%88%86%E8%A7%A31.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/Doolittle%E5%88%86%E8%A7%A32.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E5%B9%B3%E6%96%B9%E6%A0%B9%E6%B3%951.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E5%B9%B3%E6%96%B9%E6%A0%B9%E6%B3%952.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E5%B9%B3%E6%96%B9%E6%A0%B9%E6%B3%953.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E5%B9%B3%E6%96%B9%E6%A0%B9%E6%B3%954.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E8%BF%BD%E8%B5%B6%E6%B3%951.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E9%9B%85%E5%8F%AF%E6%AF%94%E7%9F%A9%E9%98%B5.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E9%9B%85%E5%8F%AF%E6%AF%94%E6%96%B9%E7%A8%8B.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E9%9B%85%E5%8F%AF%E6%AF%94%E8%BF%AD%E4%BB%A3%E7%9F%A9%E9%98%B5.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E9%9B%85%E5%8F%AF%E6%AF%94%E7%9F%A9%E9%98%B5.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E9%AB%98%E6%96%AF%E8%B5%9B%E5%BE%B7%E5%B0%94.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E8%BF%AD%E4%BB%A3%E6%B3%95%E6%94%B6%E6%95%9B%E6%9D%A1%E4%BB%B6.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E8%BF%AD%E4%BB%A3%E6%B3%95%E6%94%B6%E6%95%9B%E6%9D%A1%E4%BB%B61.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E4%B8%8D%E5%8A%A8%E7%82%B9%E8%BF%AD%E4%BB%A3%E8%BF%87%E7%A8%8B.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E4%B8%8D%E5%8A%A8%E7%82%B9%E8%BF%AD%E4%BB%A3%E8%BF%87%E7%A8%8B.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E4%B8%8D%E5%8A%A8%E7%82%B9%E8%BF%AD%E4%BB%A3%E8%AF%AF%E5%B7%AE%E4%BC%B0%E8%AE%A1.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E7%89%9B%E9%A1%BF%E8%BF%AD%E4%BB%A3%E6%B3%95%E5%8E%9F%E7%90%86.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/Legendre%E5%A4%9A%E9%A1%B9%E5%BC%8F.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/Chebyshev%E5%A4%9A%E9%A1%B9%E5%BC%8F.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/Laguere%E5%A4%9A%E9%A1%B9%E5%BC%8F.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E5%87%BD%E6%95%B0%E9%80%BC%E8%BF%91%E5%9F%BA%E6%9C%AC%E9%97%AE%E9%A2%98.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E6%9C%80%E4%BD%B3%E4%B8%80%E8%87%B4%E9%80%BC%E8%BF%91.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E6%9C%80%E4%BD%B3%E5%B9%B3%E6%96%B9%E9%80%BC%E8%BF%91.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E6%9C%80%E4%BD%B3%E5%B9%B3%E6%96%B9%E9%80%BC%E8%BF%91%E8%AE%A1%E7%AE%97.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E6%B1%82%E7%A7%AF%E5%85%AC%E5%BC%8F%E7%9A%84%E4%BB%A3%E6%95%B0%E7%B2%BE%E5%BA%A6.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E6%8F%92%E5%80%BC%E5%9E%8B%E6%B1%82%E7%A7%AF%E5%85%AC%E5%BC%8F.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E6%8F%92%E5%80%BC%E5%9E%8B%E6%B1%82%E7%A7%AF%E5%85%AC%E5%BC%8F%E4%BD%99%E9%A1%B9.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E7%89%9B%E9%A1%BF%E6%9F%AF%E7%89%B9%E6%96%AF%E5%85%AC%E5%BC%8F.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E7%89%9B%E9%A1%BF-%E6%9F%AF%E7%89%B9%E6%96%AF%E5%85%AC%E5%BC%8F%E6%88%AA%E6%96%AD%E8%AF%AF%E5%B7%AE.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E5%A4%8D%E5%8C%96%E6%B1%82%E7%A7%AF%E5%85%AC%E5%BC%8F.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E5%A4%8D%E5%8C%96%E6%B1%82%E7%A7%AF%E5%85%AC%E5%BC%8F%E7%9A%84%E6%88%AA%E6%96%AD%E8%AF%AF%E5%B7%AE.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E4%B8%80%E9%98%B6%E5%B8%B8%E5%BE%AE%E5%88%86%E6%96%B9%E7%A8%8B.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/lipschitz%E6%9D%A1%E4%BB%B6.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E4%B8%80%E9%98%B6%E5%90%91%E5%89%8D%E5%B7%AE%E5%88%86.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E4%B8%80%E9%98%B6%E5%90%91%E5%89%8D%E5%B7%AE%E5%88%861.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E5%8F%B3%E7%9F%A9%E5%BD%A2%E7%A7%AF%E5%88%86.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E6%A2%AF%E5%BD%A2%E7%9F%A9%E5%BD%A2%E7%A7%AF%E5%88%86.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E6%94%B9%E8%BF%9B%E7%9A%84%E6%AC%A7%E6%8B%89.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E6%94%B9%E8%BF%9B%E7%9A%84%E6%AC%A7%E6%8B%89.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E4%B8%89%E9%98%B6R-K.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E5%9B%9B%E9%98%B6R-K.png">
+<meta property="article:published_time" content="2021-10-12T03:40:21.000Z">
+<meta property="article:modified_time" content="2021-12-05T14:52:13.284Z">
+<meta property="article:author" content="东">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E7%BB%9D%E5%AF%B9%E8%AF%AF%E5%B7%AE.png">
+
+
+<link rel="canonical" href="http://example.com/2021/10/12/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;http:&#x2F;&#x2F;example.com&#x2F;2021&#x2F;10&#x2F;12&#x2F;%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90&#x2F;&quot;,&quot;path&quot;:&quot;2021&#x2F;10&#x2F;12&#x2F;数值分析&#x2F;&quot;,&quot;title&quot;:&quot;数值分析&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title>数值分析 | 坚果博客</title><script src="/js/config.js"></script>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">坚果博客</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">2</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">2</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">35</span></a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E8%AF%AF%E5%B7%AE"><span class="nav-text">1. 误差</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E7%BB%9D%E5%AF%B9%E8%AF%AF%E5%B7%AE"><span class="nav-text">1.1 绝对误差</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E7%9B%B8%E5%AF%B9%E8%AF%AF%E5%B7%AE"><span class="nav-text">1.2 相对误差</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-%E6%9C%89%E6%95%88%E6%95%B0%E5%AD%97"><span class="nav-text">1.3 有效数字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-%E6%9C%89%E6%95%88%E6%95%B0%E5%AD%97%E5%92%8C%E7%9B%B8%E5%AF%B9%E8%AF%AF%E5%B7%AE%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-text">1.4 有效数字和相对误差的关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-5-%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97%E7%9A%84%E8%8B%A5%E5%B9%B2%E5%8E%9F%E5%88%99"><span class="nav-text">1.5 数值计算的若干原则</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E8%A7%A3%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%BB%84%E7%9A%84%E7%9B%B4%E6%8E%A5%E6%96%B9%E6%B3%95"><span class="nav-text">2. 解线性方程组的直接方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E9%AB%98%E6%96%AF%E6%B6%88%E5%8E%BB%E6%B3%95"><span class="nav-text">2.1 高斯消去法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E9%80%89%E4%B8%BB%E5%85%83%E7%B4%A0%E7%9A%84%E9%AB%98%E6%96%AF%E6%B6%88%E5%8E%BB%E6%B3%95"><span class="nav-text">2.2 选主元素的高斯消去法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-Gauss-Jordan%E6%B6%88%E5%85%83%E6%B3%95"><span class="nav-text">2.3 Gauss-Jordan消元法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-%E7%9B%B4%E6%8E%A5%E4%B8%89%E8%A7%92%E5%88%86%E8%A7%A3%E6%B3%95"><span class="nav-text">2.4 直接三角分解法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-5-%E5%B9%B3%E6%96%B9%E6%A0%B9%E6%B3%95%E4%B8%8E%E6%94%B9%E8%BF%9B%E7%9A%84%E5%B9%B3%E6%96%B9%E6%A0%B9%E6%B3%95"><span class="nav-text">2.5 平方根法与改进的平方根法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-6-%E8%BF%BD%E8%B5%B6%E6%B3%95"><span class="nav-text">2.6 追赶法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E8%A7%A3%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%BB%84%E8%BF%AD%E4%BB%A3%E6%B3%95"><span class="nav-text">3. 解线性方程组迭代法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E8%BF%AD%E4%BB%A3%E6%B3%95%E5%BB%BA%E7%AB%8B"><span class="nav-text">3.1 迭代法建立</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-Jacobi%E8%BF%AD%E4%BB%A3%E6%B3%95"><span class="nav-text">3.2 Jacobi迭代法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-Gauss-Seidel"><span class="nav-text">3.3 Gauss-Seidel</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-%E6%94%B6%E6%95%9B%E6%9D%A1%E4%BB%B6"><span class="nav-text">3.4 收敛条件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E4%B8%8E%E6%96%B9%E7%A8%8B%E7%BB%84%E7%9A%84%E6%95%B0%E5%80%BC%E8%A7%A3%E6%B3%95"><span class="nav-text">4.非线性方程与方程组的数值解法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-%E4%BA%8C%E5%88%86%E6%B3%95"><span class="nav-text">4.1 二分法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-%E4%B8%8D%E5%8A%A8%E7%82%B9%E8%BF%AD%E4%BB%A3"><span class="nav-text">4.2 不动点迭代</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-%E7%89%9B%E9%A1%BF%E8%BF%AD%E4%BB%A3%E6%B3%95"><span class="nav-text">4.3 牛顿迭代法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-%E5%87%BD%E6%95%B0%E9%80%BC%E8%BF%91%E4%B8%8E%E6%9B%B2%E7%BA%BF%E6%8B%9F%E5%90%88"><span class="nav-text">6.函数逼近与曲线拟合</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#6-2-%E5%B8%B8%E7%94%A8%E7%9A%84%E6%AD%A3%E4%BA%A4%E5%A4%9A%E9%A1%B9%E5%BC%8F"><span class="nav-text">6.2 常用的正交多项式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-3-%E6%9C%80%E4%BD%B3%E5%B9%B3%E6%96%B9%E9%80%BC%E8%BF%91"><span class="nav-text">6.3 最佳平方逼近</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7-%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86%E4%B8%8E%E6%95%B0%E5%80%BC%E5%BE%AE%E5%88%86"><span class="nav-text">7. 数值积分与数值微分</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#7-1-%E6%B1%82%E7%A7%AF%E5%85%AC%E5%BC%8F"><span class="nav-text">7.1 求积公式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-1-%E7%89%9B%E9%A1%BF-%E6%9F%AF%E7%89%B9%E6%96%AF"><span class="nav-text">7.1 牛顿-柯特斯</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-2-%E5%A4%8D%E5%8C%96%E6%B1%82%E7%A7%AF%E5%85%AC%E5%BC%8F"><span class="nav-text">7.2 复化求积公式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8-%E5%B8%B8%E5%BE%AE%E5%88%86%E6%96%B9%E7%A8%8B%E7%9A%84%E6%95%B0%E5%80%BC%E8%A7%A3%E6%B3%95"><span class="nav-text">8. 常微分方程的数值解法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#8-1-Euler%E6%96%B9%E6%B3%95"><span class="nav-text">8.1 Euler方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-3-Runge-Kutta%E6%96%B9%E6%B3%95"><span class="nav-text">8.3 Runge-Kutta方法</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">东</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">35</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/10/12/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="东">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="坚果博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          数值分析
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-10-12 11:40:21" itemprop="dateCreated datePublished" datetime="2021-10-12T11:40:21+08:00">2021-10-12</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-12-05 22:52:13" itemprop="dateModified" datetime="2021-12-05T22:52:13+08:00">2021-12-05</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="1-误差"><a href="#1-误差" class="headerlink" title="1. 误差"></a>1. 误差</h1><h2 id="1-1-绝对误差"><a href="#1-1-绝对误差" class="headerlink" title="1.1 绝对误差"></a>1.1 绝对误差</h2><span id="more"></span>
+<ul>
+<li><img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E7%BB%9D%E5%AF%B9%E8%AF%AF%E5%B7%AE.png" title="图片"></li>
+</ul>
+<h2 id="1-2-相对误差"><a href="#1-2-相对误差" class="headerlink" title="1.2 相对误差"></a>1.2 相对误差</h2><ul>
+<li><img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E7%9B%B8%E5%AF%B9%E8%AF%AF%E5%B7%AE.png" title="图片"></li>
+</ul>
+<h2 id="1-3-有效数字"><a href="#1-3-有效数字" class="headerlink" title="1.3 有效数字"></a>1.3 有效数字</h2><ul>
+<li>设数x是数x*的近似值，如果x的绝对误差限是它的某一数位的半个单位，并且从x左起第一个非零数字到该数位共有n位，则称这n个数字为x的有效数字，也称用x近似x*时具有n位有效数字。</li>
+<li><img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E6%9C%89%E6%95%88%E6%95%B0%E5%AD%972.png" title="图片"></li>
+</ul>
+<h2 id="1-4-有效数字和相对误差的关系"><a href="#1-4-有效数字和相对误差的关系" class="headerlink" title="1.4 有效数字和相对误差的关系"></a>1.4 有效数字和相对误差的关系</h2><ul>
+<li><img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E6%9C%89%E6%95%88%E6%95%B0%E5%AD%97%E5%92%8C%E7%9B%B8%E5%AF%B9%E8%AF%AF%E5%B7%AE%E7%9A%84%E5%85%B3%E7%B3%BB.png" title="图片"></li>
+</ul>
+<h2 id="1-5-数值计算的若干原则"><a href="#1-5-数值计算的若干原则" class="headerlink" title="1.5 数值计算的若干原则"></a>1.5 数值计算的若干原则</h2><ol>
+<li>避免两个数相减</li>
+</ol>
+<h1 id="2-解线性方程组的直接方法"><a href="#2-解线性方程组的直接方法" class="headerlink" title="2. 解线性方程组的直接方法"></a>2. 解线性方程组的直接方法</h1><h2 id="2-1-高斯消去法"><a href="#2-1-高斯消去法" class="headerlink" title="2.1 高斯消去法"></a>2.1 高斯消去法</h2><ul>
+<li>过程<ol>
+<li>消元</li>
+<li>回代</li>
+</ol>
+</li>
+<li>定理<ul>
+<li>可以用高斯消元法的充分必要条件&lt;==&gt;系数矩阵各阶顺序主子式不为零</li>
+</ul>
+</li>
+<li>计算量<ul>
+<li><img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E9%A1%BA%E5%BA%8F%E9%AB%98%E6%96%AF%E6%B6%88%E5%85%83%E6%B3%95%E8%AE%A1%E7%AE%97%E9%87%8F.png" title="图片"><h2 id="2-2-选主元素的高斯消去法"><a href="#2-2-选主元素的高斯消去法" class="headerlink" title="2.2 选主元素的高斯消去法"></a>2.2 选主元素的高斯消去法</h2></li>
+</ul>
+</li>
+<li>顺序高斯消去法有舍入误差</li>
+<li>列主元素<ul>
+<li>只要系数矩阵不为0则可用此方法</li>
+</ul>
+</li>
+<li>全主元素<h2 id="2-3-Gauss-Jordan消元法"><a href="#2-3-Gauss-Jordan消元法" class="headerlink" title="2.3 Gauss-Jordan消元法"></a>2.3 Gauss-Jordan消元法</h2></li>
+</ul>
+<ol>
+<li><img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E9%AB%98%E6%96%AF%E6%B6%88%E5%8E%BB%E6%B3%95%E7%9F%A9%E9%98%B5%E8%BF%90%E7%AE%971.png" title="图片"></li>
+<li><img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E9%AB%98%E6%96%AF%E6%B6%88%E5%8E%BB%E6%B3%95%E7%9F%A9%E9%98%B5%E8%BF%90%E7%AE%972.png" title="图片"></li>
+</ol>
+<h2 id="2-4-直接三角分解法"><a href="#2-4-直接三角分解法" class="headerlink" title="2.4 直接三角分解法"></a>2.4 直接三角分解法</h2><ul>
+<li>n阶方阵A的各阶顺序主子式不为0则存在唯一的LU</li>
+<li><img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/Doolittle%E5%88%86%E8%A7%A31.png" title="图片"></li>
+<li><img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/Doolittle%E5%88%86%E8%A7%A32.png" title="图片"></li>
+<li>类似与顺序高斯消去法但在计算同系数线性方程组，可大大节省计算量</li>
+</ul>
+<h2 id="2-5-平方根法与改进的平方根法"><a href="#2-5-平方根法与改进的平方根法" class="headerlink" title="2.5 平方根法与改进的平方根法"></a>2.5 平方根法与改进的平方根法</h2><ul>
+<li>设A为实对称正定矩阵，有唯一分解A=LU，将U拆分为对角矩阵和单位上三角矩阵相乘的形式U=DM</li>
+</ul>
+<ol>
+<li><img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E5%B9%B3%E6%96%B9%E6%A0%B9%E6%B3%951.png" title="图片"></li>
+<li><img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E5%B9%B3%E6%96%B9%E6%A0%B9%E6%B3%952.png" title="图片"></li>
+<li><img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E5%B9%B3%E6%96%B9%E6%A0%B9%E6%B3%953.png" title="图片"></li>
+<li><img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E5%B9%B3%E6%96%B9%E6%A0%B9%E6%B3%954.png" title="图片"></li>
+</ol>
+<ul>
+<li>改进的平方根法</li>
+</ul>
+<h2 id="2-6-追赶法"><a href="#2-6-追赶法" class="headerlink" title="2.6 追赶法"></a>2.6 追赶法</h2><ul>
+<li>要求三对角矩阵A的各阶顺序主子式都不为零</li>
+<li><img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E8%BF%BD%E8%B5%B6%E6%B3%951.png" title="图片"></li>
+</ul>
+<h1 id="3-解线性方程组迭代法"><a href="#3-解线性方程组迭代法" class="headerlink" title="3. 解线性方程组迭代法"></a>3. 解线性方程组迭代法</h1><h2 id="3-1-迭代法建立"><a href="#3-1-迭代法建立" class="headerlink" title="3.1 迭代法建立"></a>3.1 迭代法建立</h2><ul>
+<li>考虑的问题<ol>
+<li>迭代法如何建立<h2 id="3-2-Jacobi迭代法"><a href="#3-2-Jacobi迭代法" class="headerlink" title="3.2 Jacobi迭代法"></a>3.2 Jacobi迭代法</h2></li>
+</ol>
+</li>
+<li>建立<ol>
+<li><img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E9%9B%85%E5%8F%AF%E6%AF%94%E7%9F%A9%E9%98%B5.png" title="图片"></li>
+<li><img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E9%9B%85%E5%8F%AF%E6%AF%94%E6%96%B9%E7%A8%8B.png" title="图片"></li>
+</ol>
+</li>
+<li>迭代矩阵<ul>
+<li><img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E9%9B%85%E5%8F%AF%E6%AF%94%E8%BF%AD%E4%BB%A3%E7%9F%A9%E9%98%B5.png" title="图片"></li>
+</ul>
+</li>
+</ul>
+<h2 id="3-3-Gauss-Seidel"><a href="#3-3-Gauss-Seidel" class="headerlink" title="3.3 Gauss-Seidel"></a>3.3 Gauss-Seidel</h2><ul>
+<li>建立<ol>
+<li><img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E9%9B%85%E5%8F%AF%E6%AF%94%E7%9F%A9%E9%98%B5.png" title="图片"></li>
+<li><img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E9%AB%98%E6%96%AF%E8%B5%9B%E5%BE%B7%E5%B0%94.png" title="图片"></li>
+</ol>
+</li>
+</ul>
+<h2 id="3-4-收敛条件"><a href="#3-4-收敛条件" class="headerlink" title="3.4 收敛条件"></a>3.4 收敛条件</h2><ul>
+<li><img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E8%BF%AD%E4%BB%A3%E6%B3%95%E6%94%B6%E6%95%9B%E6%9D%A1%E4%BB%B6.png" title="图片"></li>
+<li><img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E8%BF%AD%E4%BB%A3%E6%B3%95%E6%94%B6%E6%95%9B%E6%9D%A1%E4%BB%B61.png" title="图片"></li>
+</ul>
+<h1 id="4-非线性方程与方程组的数值解法"><a href="#4-非线性方程与方程组的数值解法" class="headerlink" title="4.非线性方程与方程组的数值解法"></a>4.非线性方程与方程组的数值解法</h1><h2 id="4-1-二分法"><a href="#4-1-二分法" class="headerlink" title="4.1 二分法"></a>4.1 二分法</h2><h2 id="4-2-不动点迭代"><a href="#4-2-不动点迭代" class="headerlink" title="4.2 不动点迭代"></a>4.2 不动点迭代</h2><ul>
+<li><img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E4%B8%8D%E5%8A%A8%E7%82%B9%E8%BF%AD%E4%BB%A3%E8%BF%87%E7%A8%8B.png" title="图片"></li>
+<li>收敛<ul>
+<li>压缩性<ul>
+<li><img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E4%B8%8D%E5%8A%A8%E7%82%B9%E8%BF%AD%E4%BB%A3%E8%BF%87%E7%A8%8B.png" title="图片"></li>
+</ul>
+</li>
+<li>映内性<ul>
+<li>迭代之落在区间内</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>误差估计<ul>
+<li><img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E4%B8%8D%E5%8A%A8%E7%82%B9%E8%BF%AD%E4%BB%A3%E8%AF%AF%E5%B7%AE%E4%BC%B0%E8%AE%A1.png" title="图片"></li>
+</ul>
+</li>
+</ul>
+<h2 id="4-3-牛顿迭代法"><a href="#4-3-牛顿迭代法" class="headerlink" title="4.3 牛顿迭代法"></a>4.3 牛顿迭代法</h2><ul>
+<li>公式<ul>
+<li><img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E7%89%9B%E9%A1%BF%E8%BF%AD%E4%BB%A3%E6%B3%95%E5%8E%9F%E7%90%86.png" title="图片"></li>
+</ul>
+</li>
+<li>收敛<ul>
+<li>若函数f在单根x*附近存在连续的二阶导数 且 初始值x0充分靠近x* =&gt; 收敛</li>
+</ul>
+</li>
+</ul>
+<h1 id="6-函数逼近与曲线拟合"><a href="#6-函数逼近与曲线拟合" class="headerlink" title="6.函数逼近与曲线拟合"></a>6.函数逼近与曲线拟合</h1><h2 id="6-2-常用的正交多项式"><a href="#6-2-常用的正交多项式" class="headerlink" title="6.2 常用的正交多项式"></a>6.2 常用的正交多项式</h2><ol>
+<li>Legendre多项式<ul>
+<li><img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/Legendre%E5%A4%9A%E9%A1%B9%E5%BC%8F.png" title="图片"></li>
+</ul>
+</li>
+<li>Chebyshev多项式<ul>
+<li><img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/Chebyshev%E5%A4%9A%E9%A1%B9%E5%BC%8F.png" title="图片"></li>
+</ul>
+</li>
+<li>Laguere多项式<ul>
+<li><img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/Laguere%E5%A4%9A%E9%A1%B9%E5%BC%8F.png" title="图片"></li>
+</ul>
+</li>
+</ol>
+<h2 id="6-3-最佳平方逼近"><a href="#6-3-最佳平方逼近" class="headerlink" title="6.3 最佳平方逼近"></a>6.3 最佳平方逼近</h2><ul>
+<li>函数逼近基本问题<ul>
+<li><img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E5%87%BD%E6%95%B0%E9%80%BC%E8%BF%91%E5%9F%BA%E6%9C%AC%E9%97%AE%E9%A2%98.png" title="图片"></li>
+</ul>
+</li>
+<li>最佳一致逼近<ul>
+<li><img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E6%9C%80%E4%BD%B3%E4%B8%80%E8%87%B4%E9%80%BC%E8%BF%91.png" title="图片"></li>
+<li>与原直线偏差最大的地方达到最小</li>
+</ul>
+</li>
+<li>最佳平方逼近<ul>
+<li><img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E6%9C%80%E4%BD%B3%E5%B9%B3%E6%96%B9%E9%80%BC%E8%BF%91.png" title="图片"></li>
+<li>与原直线在区间偏差面积最小</li>
+<li><img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E6%9C%80%E4%BD%B3%E5%B9%B3%E6%96%B9%E9%80%BC%E8%BF%91%E8%AE%A1%E7%AE%97.png" title="图片"></li>
+</ul>
+</li>
+</ul>
+<h1 id="7-数值积分与数值微分"><a href="#7-数值积分与数值微分" class="headerlink" title="7. 数值积分与数值微分"></a>7. 数值积分与数值微分</h1><h2 id="7-1-求积公式"><a href="#7-1-求积公式" class="headerlink" title="7.1 求积公式"></a>7.1 求积公式</h2><ul>
+<li>求积公式的代数精度<ul>
+<li><img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E6%B1%82%E7%A7%AF%E5%85%AC%E5%BC%8F%E7%9A%84%E4%BB%A3%E6%95%B0%E7%B2%BE%E5%BA%A6.png" title="图片"></li>
+</ul>
+</li>
+<li>插值型求积公式<ul>
+<li><img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E6%8F%92%E5%80%BC%E5%9E%8B%E6%B1%82%E7%A7%AF%E5%85%AC%E5%BC%8F.png" title="图片"></li>
+<li><img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E6%8F%92%E5%80%BC%E5%9E%8B%E6%B1%82%E7%A7%AF%E5%85%AC%E5%BC%8F%E4%BD%99%E9%A1%B9.png" title="图片"></li>
+</ul>
+</li>
+</ul>
+<h2 id="7-1-牛顿-柯特斯"><a href="#7-1-牛顿-柯特斯" class="headerlink" title="7.1 牛顿-柯特斯"></a>7.1 牛顿-柯特斯</h2><ul>
+<li><img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E7%89%9B%E9%A1%BF%E6%9F%AF%E7%89%B9%E6%96%AF%E5%85%AC%E5%BC%8F.png" title="图片"></li>
+<li>截断误差<br>  <img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E7%89%9B%E9%A1%BF-%E6%9F%AF%E7%89%B9%E6%96%AF%E5%85%AC%E5%BC%8F%E6%88%AA%E6%96%AD%E8%AF%AF%E5%B7%AE.png" title="图片"></li>
+</ul>
+<h2 id="7-2-复化求积公式"><a href="#7-2-复化求积公式" class="headerlink" title="7.2 复化求积公式"></a>7.2 复化求积公式</h2><ul>
+<li><p><img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E5%A4%8D%E5%8C%96%E6%B1%82%E7%A7%AF%E5%85%AC%E5%BC%8F.png" title="图片"></p>
+</li>
+<li><p>截断误差<br>  <img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E5%A4%8D%E5%8C%96%E6%B1%82%E7%A7%AF%E5%85%AC%E5%BC%8F%E7%9A%84%E6%88%AA%E6%96%AD%E8%AF%AF%E5%B7%AE.png" title="图片"></p>
+</li>
+</ul>
+<h1 id="8-常微分方程的数值解法"><a href="#8-常微分方程的数值解法" class="headerlink" title="8. 常微分方程的数值解法"></a>8. 常微分方程的数值解法</h1><ul>
+<li><img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E4%B8%80%E9%98%B6%E5%B8%B8%E5%BE%AE%E5%88%86%E6%96%B9%E7%A8%8B.png" title="图片"></li>
+<li>lipschitz条件<ul>
+<li><img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/lipschitz%E6%9D%A1%E4%BB%B6.png" title="图片"></li>
+</ul>
+</li>
+</ul>
+<h2 id="8-1-Euler方法"><a href="#8-1-Euler方法" class="headerlink" title="8.1 Euler方法"></a>8.1 Euler方法</h2><ul>
+<li>一阶向前差分（一阶）<br>  <img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E4%B8%80%E9%98%B6%E5%90%91%E5%89%8D%E5%B7%AE%E5%88%86.png" title="图片"><br>  <img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E4%B8%80%E9%98%B6%E5%90%91%E5%89%8D%E5%B7%AE%E5%88%861.png" title="图片"></li>
+<li>后退的Euler方法（一阶）<br>  <img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E5%8F%B3%E7%9F%A9%E5%BD%A2%E7%A7%AF%E5%88%86.png" title="图片"></li>
+<li>梯形方法（二阶）<br>  <img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E6%A2%AF%E5%BD%A2%E7%9F%A9%E5%BD%A2%E7%A7%AF%E5%88%86.png" title="图片"></li>
+<li>改进的Euler（二阶）<br>  <img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E6%94%B9%E8%BF%9B%E7%9A%84%E6%AC%A7%E6%8B%89.png" title="图片"><h2 id="8-3-Runge-Kutta方法"><a href="#8-3-Runge-Kutta方法" class="headerlink" title="8.3 Runge-Kutta方法"></a>8.3 Runge-Kutta方法</h2></li>
+<li>R级显式R-K方法<br>  <img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E6%94%B9%E8%BF%9B%E7%9A%84%E6%AC%A7%E6%8B%89.png" title="图片"></li>
+<li>三级式R-K方法<br>  <img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E4%B8%89%E9%98%B6R-K.png" title="图片"></li>
+<li>四级式R-K方法<br>  <img src="/images/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/%E5%9B%9B%E9%98%B6R-K.png" title="图片"></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/10/10/%E5%85%B6%E4%BB%96%E5%86%85%E5%AE%B9/" rel="prev" title="其他内容">
+                  <i class="fa fa-chevron-left"></i> 其他内容
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/11/22/%E5%8D%8F%E8%AE%AE/" rel="next" title="协议">
+                  协议 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+<script src="/js/comments.js"></script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">东</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="https://cdn.jsdelivr.net/npm/ribbon.js@1.0.2/dist/ribbon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  <script class="next-config" data-name="nprogress" type="application/json">{&quot;enable&quot;:true,&quot;spinner&quot;:true}</script>
+  <script src="/js/third-party/nprogress.js"></script>
+
+  
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css" integrity="sha256-no0c5ccDODBwp+9hSmV5VvPpKwHCpbVzXHexIkupM6U=" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js" integrity="sha256-a5YRB27CcBwBFcT5EF/f3E4vzIqyHrSR878nseNYw64=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;example.com&quot;,&quot;root&quot;:&quot;&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;images&quot;,&quot;scheme&quot;:&quot;Gemini&quot;,&quot;version&quot;:&quot;8.4.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;post&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12},&quot;copycode&quot;:true,&quot;bookmark&quot;:{&quot;enable&quot;:true,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:false,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:true,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;},&quot;path&quot;:&quot;&#x2F;search.xml&quot;,&quot;localsearch&quot;:{&quot;enable&quot;:true,&quot;trigger&quot;:&quot;auto&quot;,&quot;top_n_per_article&quot;:1,&quot;unescape&quot;:false,&quot;preload&quot;:false}}</script>
+<meta name="description" content="一.基础知识1.基本定理和规则">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数电">
+<meta property="og:url" content="http://example.com/2021/05/24/fpga/%E6%95%B0%E7%94%B5/index.html">
+<meta property="og:site_name" content="坚果博客">
+<meta property="og:description" content="一.基础知识1.基本定理和规则">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E7%94%B5/%E4%BA%8C%E6%9E%81%E7%AE%A1%E4%B8%8E%E9%97%A8.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E7%94%B5/%E4%BA%8C%E6%9E%81%E7%AE%A1%E6%88%96%E9%97%A8%E7%94%B5%E8%B7%AF.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E7%94%B5/%E4%B8%89%E6%9E%81%E7%AE%A1%E9%9D%9E%E7%94%B5%E8%B7%AF.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E7%94%B5/%E4%BA%8C%E6%9E%81%E7%AE%A1%E4%B8%8E%E9%97%A8%E9%80%BB%E8%BE%91%E7%AC%A6%E5%8F%B7.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E7%94%B5/%E4%BA%8C%E6%9E%81%E7%AE%A1%E6%88%96%E7%AC%A6%E5%8F%B7.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E7%94%B5/%E4%B8%89%E6%9E%81%E7%AE%A1%E9%9D%9E%E7%AC%A6%E5%8F%B7.png">
+<meta property="article:published_time" content="2021-05-24T00:34:18.000Z">
+<meta property="article:modified_time" content="2021-06-01T13:53:32.000Z">
+<meta property="article:author" content="东">
+<meta property="article:tag" content="数电">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/%E6%95%B0%E7%94%B5/%E4%BA%8C%E6%9E%81%E7%AE%A1%E4%B8%8E%E9%97%A8.png">
+
+
+<link rel="canonical" href="http://example.com/2021/05/24/fpga/%E6%95%B0%E7%94%B5/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;http:&#x2F;&#x2F;example.com&#x2F;2021&#x2F;05&#x2F;24&#x2F;fpga&#x2F;%E6%95%B0%E7%94%B5&#x2F;&quot;,&quot;path&quot;:&quot;2021&#x2F;05&#x2F;24&#x2F;fpga&#x2F;数电&#x2F;&quot;,&quot;title&quot;:&quot;数电&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title>数电 | 坚果博客</title><script src="/js/config.js"></script>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">坚果博客</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">2</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">2</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">35</span></a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="nav-text">一.基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%9F%BA%E6%9C%AC%E5%AE%9A%E7%90%86%E5%92%8C%E8%A7%84%E5%88%99"><span class="nav-text">1.基本定理和规则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1%E5%9F%BA%E6%9C%AC%E5%AE%9A%E7%90%86"><span class="nav-text">1.1基本定理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2%E9%87%8D%E8%A6%81%E8%A7%84%E5%88%99"><span class="nav-text">1.2重要规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3%E5%A4%8D%E5%90%88%E9%80%BB%E8%BE%91"><span class="nav-text">1.3复合逻辑</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%9A%84%E5%BD%A2%E5%BC%8F%E4%B8%8E%E5%8F%98%E6%8D%A2"><span class="nav-text">2.表达式的形式与变换</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1%E5%9F%BA%E6%9C%AC%E5%BD%A2%E5%BC%8F"><span class="nav-text">2.1基本形式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2%E6%A0%87%E5%87%86%E5%BD%A2%E5%BC%8F"><span class="nav-text">2.2标准形式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3%E8%BD%AC%E6%8D%A2%E6%96%B9%E6%B3%95"><span class="nav-text">2.3转换方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4%E9%80%BB%E8%BE%91%E5%87%BD%E6%95%B0%E5%8C%96%E7%AE%80"><span class="nav-text">2.4逻辑函数化简</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E9%9B%86%E6%88%90%E9%97%A8%E7%94%B5%E8%B7%AF%E5%92%8C%E8%A7%A6%E5%8F%91%E5%99%A8"><span class="nav-text">3.集成门电路和触发器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E5%8D%8A%E5%AF%BC%E4%BD%93%E7%9A%84%E5%BC%80%E5%85%B3%E7%89%B9%E6%80%A7"><span class="nav-text">3.1 半导体的开关特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E9%97%A8%E7%94%B5%E8%B7%AF"><span class="nav-text">3.2 门电路</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">东</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">35</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/05/24/fpga/%E6%95%B0%E7%94%B5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="东">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="坚果博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          数电
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-05-24 08:34:18" itemprop="dateCreated datePublished" datetime="2021-05-24T08:34:18+08:00">2021-05-24</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-06-01 21:53:32" itemprop="dateModified" datetime="2021-06-01T21:53:32+08:00">2021-06-01</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/fpga/" itemprop="url" rel="index"><span itemprop="name">fpga</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="一-基础知识"><a href="#一-基础知识" class="headerlink" title="一.基础知识"></a>一.基础知识</h1><h2 id="1-基本定理和规则"><a href="#1-基本定理和规则" class="headerlink" title="1.基本定理和规则"></a>1.基本定理和规则</h2><span id="more"></span>  
+<h3 id="1-1基本定理"><a href="#1-1基本定理" class="headerlink" title="1.1基本定理"></a>1.1基本定理</h3><table>
+<thead>
+<tr>
+<th align="left">公里</th>
+<th align="center">0</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">交换律</td>
+<td align="center">A + B = B + A 　　 A · B = B · A</td>
+</tr>
+<tr>
+<td align="left">结合律</td>
+<td align="center">(A + B) + C = A + (B + C) 　　(A · B) · C = A · (B · C)</td>
+</tr>
+<tr>
+<td align="left">分配律</td>
+<td align="center">A + (B · C) = (A + B)·(A + C) 　　A · (B + C) = A · B + A · C</td>
+</tr>
+<tr>
+<td align="left">0-1律</td>
+<td align="center">A + 0 = A 　　A + 1 = 1 　　A · 0 = 0 　　A · 1 = A</td>
+</tr>
+<tr>
+<td align="left">互补律</td>
+<td align="center">A + A’ = 1 　　A · A’ = 0</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th align="left">定理</th>
+<th align="center">0</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">定理1</td>
+<td align="center">0 + 0 = 0 　　1 + 1 = 1</td>
+</tr>
+<tr>
+<td align="left">定理2</td>
+<td align="center">A + A = A 　　A · A = A</td>
+</tr>
+<tr>
+<td align="left">定理3</td>
+<td align="center">A + A · B = A　　A · (A + B) = A</td>
+</tr>
+<tr>
+<td align="left">定理4</td>
+<td align="center">A + A’B = A + B　　A · (A’ + B) = AB</td>
+</tr>
+<tr>
+<td align="left">定理5</td>
+<td align="center">A’’ = A</td>
+</tr>
+<tr>
+<td align="left">定理6</td>
+<td align="center">(A + B)’ = A’ + B’</td>
+</tr>
+<tr>
+<td align="left">定理7</td>
+<td align="center">A · B + A · B’ = A　　(A + B)(A + B’) = A</td>
+</tr>
+<tr>
+<td align="left">定理8</td>
+<td align="center">A · B + A’ · C + B · C = A · B + A’ · C 　　 (A + B) · (A’ + C) · (B + C) = (A + B) · (A’ + C)</td>
+</tr>
+</tbody></table>
+<h3 id="1-2重要规则"><a href="#1-2重要规则" class="headerlink" title="1.2重要规则"></a>1.2重要规则</h3><p><strong>①代入规则</strong><br><strong>②反演规则</strong></p>
+<ul>
+<li>与变或，或变与，原变反，反变原，1变0，0变1</li>
+<li>保证运算顺序不变<blockquote>
+<p>则新的函数为原函数F的反函数F’</p>
+</blockquote>
+</li>
+</ul>
+<p><strong>③对偶式</strong></p>
+<ul>
+<li>与变或，或变与，1变0，0变1</li>
+<li>保证运算顺序不变<blockquote>
+<p>则新的函数为原函数F的对偶式(若F的对偶式=F，则F为自对偶函数；若F=G -&gt; F的对偶式 = G的对偶式 )</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="1-3复合逻辑"><a href="#1-3复合逻辑" class="headerlink" title="1.3复合逻辑"></a>1.3复合逻辑</h3><table>
+<thead>
+<tr>
+<th align="left">复合逻辑</th>
+<th align="center">功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">与非</td>
+<td align="center">仅当全部变量为1是结果为0</td>
+</tr>
+<tr>
+<td align="left">或非</td>
+<td align="center">仅当全部变量为0是结果为1</td>
+</tr>
+<tr>
+<td align="left">与或非</td>
+<td align="center">-</td>
+</tr>
+<tr>
+<td align="left">异或</td>
+<td align="center">变量相同为0，不同为1</td>
+</tr>
+</tbody></table>
+<h2 id="2-表达式的形式与变换"><a href="#2-表达式的形式与变换" class="headerlink" title="2.表达式的形式与变换"></a>2.表达式的形式与变换</h2><h3 id="2-1基本形式"><a href="#2-1基本形式" class="headerlink" title="2.1基本形式"></a>2.1基本形式</h3><p><strong>①与-或表达式</strong></p>
+<blockquote>
+<p>若干与项进行或运算的表达式</p>
+</blockquote>
+<p><strong>②或-与表达式</strong></p>
+<blockquote>
+<p>若干积项进行与运算的表达式</p>
+</blockquote>
+<h3 id="2-2标准形式"><a href="#2-2标准形式" class="headerlink" title="2.2标准形式"></a>2.2标准形式</h3><p><strong>①最小项性质</strong></p>
+<ul>
+<li>仅有一种取值令最小项为1</li>
+<li>mi · mj = 0</li>
+<li>全部最小项相或为1</li>
+<li>n个变量构成的最小项有n个相邻最小项<blockquote>
+<p>例：F=A’BC’ + A’BC + ABC’ + ABC = m2+m3+m6+m7</p>
+</blockquote>
+</li>
+</ul>
+<p><strong>②最大项性质</strong></p>
+<ul>
+<li>仅有一种取值令最大项为0</li>
+<li>Mi + Mj = 1</li>
+<li>全部最大项相与为0</li>
+<li>n个变量构成的最大项有n个相邻最大项<blockquote>
+<p>例：F = (A + B + C)(A + B +C’) = M0M1</p>
+</blockquote>
+</li>
+</ul>
+<p><strong>③最大项和最小项的关系</strong></p>
+<ul>
+<li>下标相同的最小项和最大项互为反函数</li>
+<li>mi和Mj存在互补关系</li>
+</ul>
+<h3 id="2-3转换方法"><a href="#2-3转换方法" class="headerlink" title="2.3转换方法"></a>2.3转换方法</h3><p><strong>①代数转换法</strong><br>转换为与或</p>
+<ol>
+<li>将表达式化为一般与或表达式</li>
+<li>反复使用X = X · (Y + Y’)<br>转换为或与</li>
+<li>将表达式化为一般或与表达式</li>
+<li>反复使用X = (X + Y)·(X + Y’) </li>
+</ol>
+<p><strong>②真值表转换法</strong></p>
+<blockquote>
+<p>将取值为1的情况或起来或将取值为0的情况与起来</p>
+</blockquote>
+<h3 id="2-4逻辑函数化简"><a href="#2-4逻辑函数化简" class="headerlink" title="2.4逻辑函数化简"></a>2.4逻辑函数化简</h3><p><strong>①代数化简法</strong><br>与或表达式化简</p>
+<ul>
+<li>并项法：A · B + A · B’ = A</li>
+<li>吸收法：A + A · B = A</li>
+<li>消去法：A + A’B = A + B</li>
+<li>配项法：A · 1 = A 及 A + A’ = 1</li>
+</ul>
+<p><strong>②卡诺图</strong><br>特点</p>
+<ul>
+<li>n个变量的卡诺图由2^n个小方格构成</li>
+<li>几何图形上相邻、相对、相重位置的小方格代表相邻最小项合并规律</li>
+<li>合并理论依据：A · B + A · B’ = A</li>
+<li>相邻最小项有一个变量互反，可以合并为一项（卡诺圈）<br>化简</li>
+</ul>
+<ol>
+<li>做出卡诺图</li>
+<li>圈出全部质蕴含项</li>
+<li>从全部质蕴含项中找出必要质蕴含项</li>
+<li>求函数最简质蕴含项集<blockquote>
+<p>蕴含项：任何一个mi<br>质蕴含项：某个卡诺圈没有被其他更大的卡诺圈包含，则该卡诺圈的与项为质蕴含项<br>必要质蕴含项：卡诺圈包含了不可能被其他圈包含的方格，该卡诺圈的与项为必要质蕴含项</p>
+</blockquote>
+</li>
+</ol>
+<p><strong>③列表化简法</strong><br><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV197411u7dZ?p=24">视频教程</a></p>
+<h2 id="3-集成门电路和触发器"><a href="#3-集成门电路和触发器" class="headerlink" title="3.集成门电路和触发器"></a>3.集成门电路和触发器</h2><h3 id="3-1-半导体的开关特性"><a href="#3-1-半导体的开关特性" class="headerlink" title="3.1 半导体的开关特性"></a>3.1 半导体的开关特性</h3><h3 id="3-2-门电路"><a href="#3-2-门电路" class="headerlink" title="3.2 门电路"></a>3.2 门电路</h3><p><strong>①简单逻辑门电路</strong></p>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">二极管与</th>
+<th align="center">二极管或</th>
+<th align="center">三极管非</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">电路</td>
+<td align="center"><img src="/images/%E6%95%B0%E7%94%B5/%E4%BA%8C%E6%9E%81%E7%AE%A1%E4%B8%8E%E9%97%A8.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E7%94%B5/%E4%BA%8C%E6%9E%81%E7%AE%A1%E6%88%96%E9%97%A8%E7%94%B5%E8%B7%AF.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E7%94%B5/%E4%B8%89%E6%9E%81%E7%AE%A1%E9%9D%9E%E7%94%B5%E8%B7%AF.png" title="图片"></td>
+</tr>
+<tr>
+<td align="center">符号</td>
+<td align="center"><img src="/images/%E6%95%B0%E7%94%B5/%E4%BA%8C%E6%9E%81%E7%AE%A1%E4%B8%8E%E9%97%A8%E9%80%BB%E8%BE%91%E7%AC%A6%E5%8F%B7.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E7%94%B5/%E4%BA%8C%E6%9E%81%E7%AE%A1%E6%88%96%E7%AC%A6%E5%8F%B7.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E7%94%B5/%E4%B8%89%E6%9E%81%E7%AE%A1%E9%9D%9E%E7%AC%A6%E5%8F%B7.png" title="图片"></td>
+</tr>
+</tbody></table>
+<p><strong>②TTL集成逻辑门电路</strong></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%95%B0%E7%94%B5/" rel="tag"># 数电</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/05/23/%E8%AF%AD%E6%B3%95%E5%9F%BA%E7%A1%80/md/" rel="prev" title="md语法">
+                  <i class="fa fa-chevron-left"></i> md语法
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/05/25/fpga/verilog/" rel="next" title="verilog">
+                  verilog <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+<script src="/js/comments.js"></script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">东</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="https://cdn.jsdelivr.net/npm/ribbon.js@1.0.2/dist/ribbon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  <script class="next-config" data-name="nprogress" type="application/json">{&quot;enable&quot;:true,&quot;spinner&quot;:true}</script>
+  <script src="/js/third-party/nprogress.js"></script>
+
+  
+
+
+
+
+
+</body>
+</html>

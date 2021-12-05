@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css" integrity="sha256-no0c5ccDODBwp+9hSmV5VvPpKwHCpbVzXHexIkupM6U=" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js" integrity="sha256-a5YRB27CcBwBFcT5EF/f3E4vzIqyHrSR878nseNYw64=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;example.com&quot;,&quot;root&quot;:&quot;&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;images&quot;,&quot;scheme&quot;:&quot;Gemini&quot;,&quot;version&quot;:&quot;8.4.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;post&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12},&quot;copycode&quot;:true,&quot;bookmark&quot;:{&quot;enable&quot;:true,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:false,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:true,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;},&quot;path&quot;:&quot;&#x2F;search.xml&quot;,&quot;localsearch&quot;:{&quot;enable&quot;:true,&quot;trigger&quot;:&quot;auto&quot;,&quot;top_n_per_article&quot;:1,&quot;unescape&quot;:false,&quot;preload&quot;:false}}</script>
+<meta name="description" content="3.组合逻辑电路">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数字电子技术">
+<meta property="og:url" content="http://example.com/2021/06/09/fpga/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90%E6%8A%80%E6%9C%AF/index.html">
+<meta property="og:site_name" content="坚果博客">
+<meta property="og:description" content="3.组合逻辑电路">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E6%A0%BC%E9%9B%B7%E7%A0%81%E8%BD%AC%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%A0%81%E7%9A%84%E7%9C%9F%E5%80%BC%E8%A1%A8.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E6%A0%BC%E9%9B%B7%E7%A0%81%E8%BD%AC%E4%BA%8C%E8%BF%9B%E5%88%B6b3%E5%8D%A1%E8%AF%BA%E5%9B%BE.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E6%A0%BC%E9%9B%B7%E7%A0%81%E8%BD%AC%E4%BA%8C%E8%BF%9B%E5%88%B6b2%E5%8D%A1%E8%AF%BA%E5%9B%BE.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E6%A0%BC%E9%9B%B7%E7%A0%81%E8%BD%AC%E4%BA%8C%E8%BF%9B%E5%88%B6b1%E5%8D%A1%E8%AF%BA%E5%9B%BE.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E6%A0%BC%E9%9B%B7%E7%A0%81%E8%BD%AC%E4%BA%8C%E8%BF%9B%E5%88%B6b0%E5%8D%A1%E8%AF%BA%E5%9B%BE.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E6%A0%BC%E9%9B%B7%E7%A0%81%E8%BD%AC%E4%BA%8C%E8%BF%9B%E5%88%B6b3%E8%A1%A8%E8%BE%BE%E5%BC%8F.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E6%A0%BC%E9%9B%B7%E7%A0%81%E8%BD%AC%E4%BA%8C%E8%BF%9B%E5%88%B6b2%E8%A1%A8%E8%BE%BE%E5%BC%8F.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E6%A0%BC%E9%9B%B7%E7%A0%81%E8%BD%AC%E4%BA%8C%E8%BF%9B%E5%88%B6b1%E8%A1%A8%E8%BE%BE%E5%BC%8F.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E6%A0%BC%E9%9B%B7%E7%A0%81%E8%BD%AC%E4%BA%8C%E8%BF%9B%E5%88%B6b0%E8%A1%A8%E8%BE%BE%E5%BC%8F.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E6%A0%BC%E9%9B%B7%E7%A0%81%E8%BD%AC%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%A0%81%E7%94%B5%E8%B7%AF.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/common_4to2%E7%94%B5%E8%B7%AF%E5%9B%BE.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/priority_4to2%E7%94%B5%E8%B7%AF%E5%9B%BE.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/CD4532%E9%80%BB%E8%BE%91%E7%AC%A6%E5%8F%B7.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/CD4532%E5%BC%95%E8%84%9A%E5%9B%BE.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/CD4532%E5%8A%9F%E8%83%BD%E8%A1%A8.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/2to4%E8%AF%91%E7%A0%81%E5%99%A8%E9%80%BB%E8%BE%91%E5%9B%BE.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/74x139%E9%80%BB%E8%BE%91%E7%AC%A6%E5%8F%B7.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/2to4%E8%AF%91%E7%A0%81%E5%99%A8%E9%80%BB%E8%BE%91%E5%9B%BE.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/74x139%E5%8A%9F%E8%83%BD%E8%A1%A8.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/74HC138%E9%80%BB%E8%BE%91%E7%AC%A6%E5%8F%B7.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/74HC138%E9%80%BB%E8%BE%91%E5%9B%BE.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/74HC138%E5%8A%9F%E8%83%BD%E8%A1%A8.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E4%B8%A4%E7%89%8774HC138.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/74HC4511%E9%80%BB%E8%BE%91%E5%9B%BE.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/74HC4511%E5%8A%9F%E8%83%BD%E8%A1%A8.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E4%BA%8C%E9%80%89%E4%B8%80%E6%95%B0%E6%8D%AE%E9%80%89%E6%8B%A9%E5%99%A8%E5%9B%BE.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E5%9B%9B%E9%80%89%E4%B8%80%E6%95%B0%E6%8D%AE%E9%80%89%E6%8B%A9%E5%99%A8%E5%9B%BE.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E4%B8%A4%E4%BD%8D%E6%95%B0%E5%80%BC%E6%AF%94%E8%BE%83%E5%99%A8%E7%9C%9F%E5%80%BC%E8%A1%A8.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E4%B8%A4%E4%BD%8D%E6%95%B0%E5%80%BC%E6%AF%94%E8%BE%83%E5%99%A8%E8%A1%A8%E8%BE%BE%E5%BC%8F.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E4%B8%A4%E4%BD%8D%E6%95%B0%E5%80%BC%E6%AF%94%E8%BE%83%E5%99%A8%E9%80%BB%E8%BE%91%E5%9B%BE.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/74HC85%E5%8A%9F%E8%83%BD%E8%A1%A8.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/74HC85%E4%BD%8D%E6%89%A9%E5%B1%95.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/74HC85%E6%89%A9%E5%B1%9516%E4%BD%8D%E4%BC%98%E5%8C%96.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E5%85%A8%E5%8A%A0%E5%99%A8%E7%9C%9F%E5%80%BC%E8%A1%A8.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E5%85%A8%E5%8A%A0%E5%99%A8%E9%80%BB%E8%BE%91%E8%A1%A8%E8%BE%BE%E5%BC%8F.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E5%85%A8%E5%8A%A0%E5%99%A8%E9%80%BB%E8%BE%91%E5%9B%BE.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E5%9F%BA%E6%9C%AC%E5%8F%8C%E7%A8%B3%E6%80%81%E8%A7%A6%E5%8F%91%E5%99%A81.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E5%9F%BA%E6%9C%AC%E5%8F%8C%E7%A8%B3%E6%80%81%E8%A7%A6%E5%8F%91%E5%99%A82.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/SR%E9%94%81%E5%AD%98%E5%99%A8%E5%9B%BE.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/SR%E5%8A%9F%E8%83%BD%E8%A1%A8.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/SR%E9%80%BB%E8%BE%91%E7%AC%A6%E5%8F%B7.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E4%B8%8E%E9%9D%9E%E9%97%A8%E5%AE%9E%E7%8E%B0SR.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/SR%E4%B8%8E%E9%9D%9E%E9%97%A8%E5%8A%9F%E8%83%BD%E8%A1%A8.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E4%B8%8E%E9%9D%9E%E9%97%A8%E5%AE%9E%E7%8E%B0SR%E7%AD%89%E6%95%88%E9%80%BB%E8%BE%91%E5%9B%BE.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E4%B8%8E%E9%9D%9E%E9%97%A8%E5%AE%9E%E7%8E%B0SR%E5%B8%B8%E7%94%A8%E9%80%BB%E8%BE%91%E7%AC%A6%E5%8F%B7.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E9%97%A8%E6%8E%A7SR%E9%94%81%E5%AD%98%E5%99%A8%E9%80%BB%E8%BE%91%E5%9B%BE.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E9%97%A8%E6%8E%A7SR%E9%94%81%E5%AD%98%E5%99%A8%E5%8A%9F%E8%83%BD%E8%A1%A8.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E9%97%A8%E6%8E%A7SR%E9%94%81%E5%AD%98%E5%99%A8%E9%80%BB%E8%BE%91%E7%AC%A6%E5%8F%B7.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E9%80%BB%E8%BE%91%E9%97%A8%E6%8E%A7D%E9%94%81%E5%AD%98%E5%99%A8%E9%80%BB%E8%BE%91%E5%9B%BE.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E9%80%BB%E8%BE%91%E9%97%A8%E6%8E%A7D%E9%94%81%E5%AD%98%E5%99%A8%E5%8A%9F%E8%83%BD%E8%A1%A8.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E9%80%BB%E8%BE%91%E9%97%A8%E6%8E%A7D%E9%94%81%E5%AD%98%E5%99%A8%E9%80%BB%E8%BE%91%E7%AC%A6%E5%8F%B7.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E4%BC%A0%E8%BE%93%E9%97%A8%E6%8E%A7D%E9%94%81%E5%AD%98%E5%99%A8%E9%80%BB%E8%BE%91%E5%9B%BE.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E9%80%BB%E8%BE%91%E9%97%A8%E6%8E%A7D%E9%94%81%E5%AD%98%E5%99%A8%E5%8A%9F%E8%83%BD%E8%A1%A8.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E4%B8%BB%E4%BB%8ED%E8%A7%A6%E5%8F%91%E5%99%A8%E9%80%BB%E8%BE%91%E5%9B%BE.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E4%BC%A0%E8%BE%93%E9%97%A8%E6%8E%A7D%E9%94%81%E5%AD%98%E5%99%A8%E5%AE%9E%E7%8E%B0%E4%B8%BB%E4%BB%8ED%E8%A7%A6%E5%8F%91%E5%99%A8.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E4%B8%BB%E4%BB%8ED%E8%A7%A6%E5%8F%91%E5%99%A8%E9%80%BB%E8%BE%91%E7%AC%A6%E5%8F%B7.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E5%BC%82%E6%AD%A5%E8%BE%93%E5%85%A5%E7%AB%AF%E9%80%BB%E8%BE%91%E5%9B%BE.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E5%BC%82%E6%AD%A5%E8%BE%93%E5%85%A5%E7%AB%AF%E5%8A%9F%E8%83%BD%E8%A1%A8.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E5%BC%82%E6%AD%A5%E8%BE%93%E5%85%A5%E7%AB%AF%E9%80%BB%E8%BE%91%E7%AC%A6%E5%8F%B7.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E7%BB%B4%E6%8C%81%E9%98%BB%E5%A1%9ED%E8%A7%A6%E5%8F%91%E5%99%A8.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/D%E8%A7%A6%E5%8F%91%E5%99%A8%E7%89%B9%E6%80%A7%E6%96%B9%E7%A8%8B.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/jk%E8%A7%A6%E5%8F%91%E5%99%A8%E9%80%BB%E8%BE%91%E7%AC%A6%E5%8F%B7.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/jk%E8%A7%A6%E5%8F%91%E5%99%A8%E7%89%B9%E6%80%A7%E8%A1%A8.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/jk%E8%A7%A6%E5%8F%91%E5%99%A8%E7%8A%B6%E6%80%81%E5%9B%BE.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/jk%E8%A7%A6%E5%8F%91%E5%99%A8%E7%89%B9%E6%80%A7%E6%96%B9%E7%A8%8B.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/T%E8%A7%A6%E5%8F%91%E5%99%A8%E9%80%BB%E8%BE%91%E7%AC%A6%E5%8F%B7.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/T%E8%A7%A6%E5%8F%91%E5%99%A8%E7%89%B9%E6%80%A7%E8%A1%A8.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/T%E8%A7%A6%E5%8F%91%E5%99%A8%E7%8A%B6%E6%80%81%E5%9B%BE.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/T%E8%A7%A6%E5%8F%91%E5%99%A8%E7%89%B9%E6%80%A7%E6%96%B9%E7%A8%8B.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/SR%E8%A7%A6%E5%8F%91%E5%99%A8%E9%80%BB%E8%BE%91%E7%AC%A6%E5%8F%B7.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/SR%E8%A7%A6%E5%8F%91%E5%99%A8%E7%89%B9%E6%80%A7%E8%A1%A8.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/SR%E8%A7%A6%E5%8F%91%E5%99%A8%E7%8A%B6%E6%80%81%E5%9B%BE.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E6%97%B6%E5%BA%8F%E9%80%BB%E8%BE%91%E6%8F%8F%E8%BF%B0%E6%96%B9%E6%B3%95%E4%B8%BE%E4%BE%8B%E9%80%BB%E8%BE%91%E5%9B%BE.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E6%97%B6%E5%BA%8F%E9%80%BB%E8%BE%91%E6%8F%8F%E8%BF%B0%E6%96%B9%E6%B3%95%E4%B8%BE%E4%BE%8B%E6%96%B9%E7%A8%8B%E7%BB%84.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E6%97%B6%E5%BA%8F%E9%80%BB%E8%BE%91%E6%8F%8F%E8%BF%B0%E6%96%B9%E6%B3%95%E4%B8%BE%E4%BE%8B%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2%E8%A1%A8.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E6%97%B6%E5%BA%8F%E9%80%BB%E8%BE%91%E6%8F%8F%E8%BF%B0%E6%96%B9%E6%B3%95%E4%B8%BE%E4%BE%8B%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2%E5%9B%BE.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E8%AE%BE%E8%AE%A1%E5%90%8C%E6%AD%A5%E6%97%B6%E5%BA%8F1%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2%E8%A1%A8.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E8%AE%BE%E8%AE%A1%E5%90%8C%E6%AD%A5%E6%97%B6%E5%BA%8F1D0%E5%8D%A1%E8%AF%BA%E5%9B%BE.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E8%AE%BE%E8%AE%A1%E5%90%8C%E6%AD%A5%E6%97%B6%E5%BA%8F1D1%E5%8D%A1%E8%AF%BA%E5%9B%BE.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E8%AE%BE%E8%AE%A1%E5%90%8C%E6%AD%A5%E6%97%B6%E5%BA%8F1D2%E5%8D%A1%E8%AF%BA%E5%9B%BE.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E8%AE%BE%E8%AE%A1%E5%90%8C%E6%AD%A5%E6%97%B6%E5%BA%8F1D3%E5%8D%A1%E8%AF%BA%E5%9B%BE.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E8%AE%BE%E8%AE%A1%E5%90%8C%E6%AD%A5%E6%97%B6%E5%BA%8F1D0%E8%A1%A8%E8%BE%BE%E5%BC%8F.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E8%AE%BE%E8%AE%A1%E5%90%8C%E6%AD%A5%E6%97%B6%E5%BA%8F1D1%E8%A1%A8%E8%BE%BE%E5%BC%8F.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E8%AE%BE%E8%AE%A1%E5%90%8C%E6%AD%A5%E6%97%B6%E5%BA%8F1D2%E8%A1%A8%E8%BE%BE%E5%BC%8F.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E8%AE%BE%E8%AE%A1%E5%90%8C%E6%AD%A5%E6%97%B6%E5%BA%8F1D3%E8%A1%A8%E8%BE%BE%E5%BC%8F.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E8%AE%BE%E8%AE%A1%E5%90%8C%E6%AD%A5%E6%97%B6%E5%BA%8F1%E7%94%B5%E8%B7%AF%E5%9B%BE.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E8%AE%BE%E8%AE%A1%E5%90%8C%E6%AD%A5%E6%97%B6%E5%BA%8F1%E6%A3%80%E6%9F%A5%E8%87%AA%E5%90%AF%E5%8A%A8.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E5%BC%82%E6%AD%A5%E6%97%B6%E5%BA%8F%E9%80%BB%E8%BE%91%E7%94%B5%E8%B7%AF%E5%88%86%E6%9E%90%E6%AD%A5%E9%AA%A4.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E5%BC%82%E6%AD%A5%E6%97%B6%E5%BA%8F%E9%80%BB%E8%BE%91%E7%94%B5%E8%B7%AF%E5%88%86%E6%9E%90%E4%B8%BE%E4%BE%8B1%E7%94%B5%E8%B7%AF%E5%9B%BE.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E5%BC%82%E6%AD%A5%E6%97%B6%E5%BA%8F%E9%80%BB%E8%BE%91%E7%94%B5%E8%B7%AF%E5%88%86%E6%9E%90%E4%B8%BE%E4%BE%8B1%E7%94%B5%E8%B7%AF%E6%96%B9%E7%A8%8B.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E5%BC%82%E6%AD%A5%E6%97%B6%E5%BA%8F%E9%80%BB%E8%BE%91%E7%94%B5%E8%B7%AF%E5%88%86%E6%9E%90%E4%B8%BE%E4%BE%8B1%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2%E8%A1%A8.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E5%BC%82%E6%AD%A5%E6%97%B6%E5%BA%8F%E9%80%BB%E8%BE%91%E7%94%B5%E8%B7%AF%E5%88%86%E6%9E%90%E4%B8%BE%E4%BE%8B1%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2%E5%9B%BE.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E5%BC%82%E6%AD%A5%E6%97%B6%E5%BA%8F%E9%80%BB%E8%BE%91%E7%94%B5%E8%B7%AF%E5%88%86%E6%9E%90%E4%B8%BE%E4%BE%8B1%E6%B3%A2%E5%BD%A2%E5%9B%BE.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/74HC_HCT194.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/74HC_HCT194%E5%8A%9F%E8%83%BD%E8%A1%A8.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E8%AE%A1%E6%95%B0%E5%99%A8%E5%88%86%E7%B1%BB.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/4%E4%BD%8D%E5%BC%82%E6%AD%A5%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%8A%A0%E8%AE%A1%E6%95%B0%E5%99%A8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/4%E4%BD%8D%E5%BC%82%E6%AD%A5%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%8A%A0%E8%AE%A1%E6%95%B0%E5%99%A8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E6%B3%A2%E5%BD%A2%E5%9B%BE.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/4%E4%BD%8D%E5%90%8C%E6%AD%A5%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%8A%A0%E8%AE%A1%E6%95%B0%E5%99%A8%E6%BF%80%E5%8A%B1%E6%96%B9%E7%A8%8B.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/4%E4%BD%8D%E5%90%8C%E6%AD%A5%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%8A%A0%E8%AE%A1%E6%95%B0%E5%99%A8%E9%80%BB%E8%BE%91%E5%9B%BE.png">
+<meta property="og:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/4%E4%BD%8D%E5%90%8C%E6%AD%A5%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%8A%A0%E8%AE%A1%E6%95%B0%E5%99%A8%E6%97%B6%E5%BA%8F%E5%9B%BE.png">
+<meta property="article:published_time" content="2021-06-09T02:24:49.000Z">
+<meta property="article:modified_time" content="2021-09-18T01:12:31.156Z">
+<meta property="article:author" content="东">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E6%A0%BC%E9%9B%B7%E7%A0%81%E8%BD%AC%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%A0%81%E7%9A%84%E7%9C%9F%E5%80%BC%E8%A1%A8.png">
+
+
+<link rel="canonical" href="http://example.com/2021/06/09/fpga/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90%E6%8A%80%E6%9C%AF/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;http:&#x2F;&#x2F;example.com&#x2F;2021&#x2F;06&#x2F;09&#x2F;fpga&#x2F;%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90%E6%8A%80%E6%9C%AF&#x2F;&quot;,&quot;path&quot;:&quot;2021&#x2F;06&#x2F;09&#x2F;fpga&#x2F;数字电子技术&#x2F;&quot;,&quot;title&quot;:&quot;数字电子技术&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title>数字电子技术 | 坚果博客</title><script src="/js/config.js"></script>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">坚果博客</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">2</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">2</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">35</span></a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E7%BB%84%E5%90%88%E9%80%BB%E8%BE%91%E7%94%B5%E8%B7%AF"><span class="nav-text">3.组合逻辑电路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E7%BB%84%E5%90%88%E9%80%BB%E8%BE%91%E7%94%B5%E8%B7%AF%E5%88%86%E6%9E%90"><span class="nav-text">3.1 组合逻辑电路分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E7%BB%84%E5%90%88%E9%80%BB%E8%BE%91%E7%94%B5%E8%B7%AF%E8%AE%BE%E8%AE%A1"><span class="nav-text">3.2 组合逻辑电路设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-%E7%BB%84%E5%90%88%E9%80%BB%E8%BE%91%E7%94%B5%E8%B7%AF%E7%AB%9E%E4%BA%89%E5%86%92%E9%99%A9"><span class="nav-text">3.3 组合逻辑电路竞争冒险</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E2%91%A0%E6%B6%88%E9%99%A4%E6%96%B9%E6%B3%95"><span class="nav-text">①消除方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-%E7%BC%96%E7%A0%81%E5%99%A8"><span class="nav-text">3.4 编码器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E2%91%A0%E6%99%AE%E9%80%9A%E7%BC%96%E7%A0%81%E5%99%A8"><span class="nav-text">①普通编码器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E2%91%A1%E4%BC%98%E5%85%88%E7%BC%96%E7%A0%81%E5%99%A8"><span class="nav-text">②优先编码器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E2%91%A2%E7%BC%96%E7%A0%81%E5%99%A8%E7%9A%84%E5%BA%94%E7%94%A8"><span class="nav-text">③编码器的应用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-%E8%AF%91%E7%A0%81%E5%99%A8"><span class="nav-text">3.5 译码器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E2%91%A0%E4%BA%8C%E8%BF%9B%E5%88%B6%E8%AF%91%E7%A0%81%E5%99%A8"><span class="nav-text">①二进制译码器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E2%91%A1%E4%BA%8C-%E5%8D%81%E8%BF%9B%E5%88%B6%E8%AF%91%E7%A0%81%E5%99%A8"><span class="nav-text">②二-十进制译码器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E2%91%A2%E6%98%BE%E7%A4%BA%E8%AF%91%E7%A0%81%E5%99%A8"><span class="nav-text">③显示译码器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E2%91%A3-%E9%94%81%E5%AD%98%E5%99%A8"><span class="nav-text">④ 锁存器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-%E6%95%B0%E6%8D%AE%E5%88%86%E9%85%8D%E5%99%A8"><span class="nav-text">3.6 数据分配器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-7-%E6%95%B0%E6%8D%AE%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-text">3.7 数据选择器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E2%91%A0%E4%BA%8C%E9%80%89%E4%B8%80%E6%95%B0%E6%8D%AE%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-text">①二选一数据选择器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E2%91%A1%E5%9B%9B%E9%80%89%E4%B8%80%E6%95%B0%E6%8D%AE%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-text">②四选一数据选择器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E2%91%A2%E5%B8%B8%E7%94%A8%E9%9B%86%E6%88%90%E7%94%B5%E8%B7%AF%E6%95%B0%E6%8D%AE%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-text">③常用集成电路数据选择器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-8-%E6%95%B0%E5%80%BC%E6%AF%94%E8%BE%83%E5%99%A8"><span class="nav-text">3.8 数值比较器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E2%91%A0%E4%B8%80%E4%BD%8D%E6%95%B0%E5%80%BC%E6%AF%94%E8%BE%83%E5%99%A8"><span class="nav-text">①一位数值比较器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E2%91%A1%E4%B8%A4%E4%BD%8D%E6%95%B0%E5%80%BC%E6%AF%94%E8%BE%83%E5%99%A8"><span class="nav-text">②两位数值比较器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E2%91%A2%E6%95%B0%E5%80%BC%E6%AF%94%E8%BE%83%E5%99%A8%E5%BA%94%E7%94%A8"><span class="nav-text">③数值比较器应用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E2%91%A3%E5%8A%A0%E6%B3%95%E5%99%A8"><span class="nav-text">④加法器</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E9%94%81%E5%AD%98%E5%99%A8%E5%92%8C%E8%A7%A6%E5%8F%91%E5%99%A8"><span class="nav-text">4. 锁存器和触发器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-%E5%9F%BA%E6%9C%AC%E5%8F%8C%E7%A8%B3%E6%80%81%E7%94%B5%E8%B7%AF"><span class="nav-text">4.1 基本双稳态电路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-SR%E9%94%81%E5%AD%98%E5%99%A8"><span class="nav-text">4.2 SR锁存器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-D%E9%94%81%E5%AD%98%E5%99%A8"><span class="nav-text">4.3 D锁存器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-%E8%A7%A6%E5%8F%91%E5%99%A8%E7%94%B5%E8%B7%AF%E7%BB%93%E6%9E%84%E5%92%8C%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-text">4.4 触发器电路结构和工作原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-5-%E8%A7%A6%E5%8F%91%E5%99%A8%E7%9A%84%E9%80%BB%E8%BE%91%E5%8A%9F%E8%83%BD"><span class="nav-text">4.5 触发器的逻辑功能</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E6%97%B6%E5%BA%8F%E9%80%BB%E8%BE%91%E7%94%B5%E8%B7%AF"><span class="nav-text">5.时序逻辑电路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">5.1 基本概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-%E5%90%8C%E6%AD%A5%E6%97%B6%E5%BA%8F%E9%80%BB%E8%BE%91%E7%94%B5%E8%B7%AF%E5%88%86%E6%9E%90"><span class="nav-text">5.2 同步时序逻辑电路分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-%E5%90%8C%E6%AD%A5%E6%97%B6%E5%BA%8F%E9%80%BB%E8%BE%91%E7%94%B5%E8%B7%AF%E8%AE%BE%E8%AE%A1"><span class="nav-text">5.3 同步时序逻辑电路设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-4-%E5%BC%82%E6%AD%A5%E6%97%B6%E5%BA%8F%E9%80%BB%E8%BE%91%E7%94%B5%E8%B7%AF%E5%88%86%E6%9E%90"><span class="nav-text">5.4 异步时序逻辑电路分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E2%91%A0-%E5%9F%BA%E6%9C%AC%E6%AD%A5%E9%AA%A4"><span class="nav-text">① 基本步骤</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E2%91%A1-%E4%BE%8B%E5%AD%90"><span class="nav-text">② 例子</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-5-%E5%AF%84%E5%AD%98%E5%99%A8%E5%92%8C%E7%A7%BB%E4%BD%8D%E5%AF%84%E5%AD%98%E5%99%A8"><span class="nav-text">5.5 寄存器和移位寄存器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-6-%E8%AE%A1%E6%95%B0%E5%99%A8%E6%A6%82%E5%BF%B5%E5%92%8C%E5%BC%82%E6%AD%A5%E4%BA%8C%E8%BF%9B%E5%88%B6%E8%AE%A1%E6%95%B0%E5%99%A8"><span class="nav-text">5.6 计数器概念和异步二进制计数器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E2%91%A0-4%E4%BD%8D%E5%BC%82%E6%AD%A5%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%8A%A0%E8%AE%A1%E6%95%B0%E5%99%A8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-text">① 4位异步二进制加计数器工作原理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-7-%E5%90%8C%E6%AD%A5%E4%BA%8C%E7%BA%A7%E5%88%B6%E8%AE%A1%E6%95%B0%E5%99%A8"><span class="nav-text">5.7 同步二级制计数器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E2%91%A0%E5%9B%9B%E4%BD%8D%E5%90%8C%E6%AD%A5%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%8A%A0%E8%AE%A1%E6%95%B0%E5%99%A8"><span class="nav-text">①四位同步二进制加计数器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E2%91%A174LVC161"><span class="nav-text">②74LVC161</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-8-%E8%AE%A1%E6%95%B0%E5%99%A8%E5%BA%94%E7%94%A8"><span class="nav-text">5.8 计数器应用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-verilog"><span class="nav-text">6.verilog</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E9%80%BB%E8%BE%91%E9%97%A8%E7%94%B5%E8%B7%AF"><span class="nav-text">7.逻辑门电路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1-%E7%AE%80%E4%BB%8B"><span class="nav-text">7.1 简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2-MOS%E7%AE%A1"><span class="nav-text">7.2 MOS管</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-%E5%8D%8A%E5%AF%BC%E4%BD%93%E5%AD%98%E5%82%A8%E5%99%A8"><span class="nav-text">8. 半导体存储器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#8-1-%E5%AD%98%E5%82%A8%E5%99%A8%E5%88%86%E7%B1%BB"><span class="nav-text">8.1 存储器分类</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">东</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">35</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/06/09/fpga/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90%E6%8A%80%E6%9C%AF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="东">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="坚果博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          数字电子技术
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-06-09 10:24:49" itemprop="dateCreated datePublished" datetime="2021-06-09T10:24:49+08:00">2021-06-09</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-09-18 09:12:31" itemprop="dateModified" datetime="2021-09-18T09:12:31+08:00">2021-09-18</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="3-组合逻辑电路"><a href="#3-组合逻辑电路" class="headerlink" title="3.组合逻辑电路"></a>3.组合逻辑电路</h2><span id="more"></span>
+<h3 id="3-1-组合逻辑电路分析"><a href="#3-1-组合逻辑电路分析" class="headerlink" title="3.1 组合逻辑电路分析"></a>3.1 组合逻辑电路分析</h3><ol>
+<li>从输入到输出写出逻辑函数的表达式</li>
+<li>将表达式化简</li>
+<li>列出真值表</li>
+<li>分析功能</li>
+</ol>
+<h3 id="3-2-组合逻辑电路设计"><a href="#3-2-组合逻辑电路设计" class="headerlink" title="3.2 组合逻辑电路设计"></a>3.2 组合逻辑电路设计</h3><ul>
+<li>步骤与分析相反</li>
+</ul>
+<p><strong>①例子：将格雷码转换为自然二进制码</strong></p>
+<ol>
+<li>真值表<br><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E6%A0%BC%E9%9B%B7%E7%A0%81%E8%BD%AC%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%A0%81%E7%9A%84%E7%9C%9F%E5%80%BC%E8%A1%A8.png" title="图片"></li>
+<li>卡诺图化简<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">B1</th>
+<th align="center">B2</th>
+<th align="center">B3</th>
+<th align="center">B4</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">卡诺图</td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E6%A0%BC%E9%9B%B7%E7%A0%81%E8%BD%AC%E4%BA%8C%E8%BF%9B%E5%88%B6b3%E5%8D%A1%E8%AF%BA%E5%9B%BE.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E6%A0%BC%E9%9B%B7%E7%A0%81%E8%BD%AC%E4%BA%8C%E8%BF%9B%E5%88%B6b2%E5%8D%A1%E8%AF%BA%E5%9B%BE.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E6%A0%BC%E9%9B%B7%E7%A0%81%E8%BD%AC%E4%BA%8C%E8%BF%9B%E5%88%B6b1%E5%8D%A1%E8%AF%BA%E5%9B%BE.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E6%A0%BC%E9%9B%B7%E7%A0%81%E8%BD%AC%E4%BA%8C%E8%BF%9B%E5%88%B6b0%E5%8D%A1%E8%AF%BA%E5%9B%BE.png" title="图片"></td>
+</tr>
+<tr>
+<td align="center">表达式</td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E6%A0%BC%E9%9B%B7%E7%A0%81%E8%BD%AC%E4%BA%8C%E8%BF%9B%E5%88%B6b3%E8%A1%A8%E8%BE%BE%E5%BC%8F.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E6%A0%BC%E9%9B%B7%E7%A0%81%E8%BD%AC%E4%BA%8C%E8%BF%9B%E5%88%B6b2%E8%A1%A8%E8%BE%BE%E5%BC%8F.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E6%A0%BC%E9%9B%B7%E7%A0%81%E8%BD%AC%E4%BA%8C%E8%BF%9B%E5%88%B6b1%E8%A1%A8%E8%BE%BE%E5%BC%8F.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E6%A0%BC%E9%9B%B7%E7%A0%81%E8%BD%AC%E4%BA%8C%E8%BF%9B%E5%88%B6b0%E8%A1%A8%E8%BE%BE%E5%BC%8F.png" title="图片"></td>
+</tr>
+</tbody></table>
+</li>
+<li>电路<br><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E6%A0%BC%E9%9B%B7%E7%A0%81%E8%BD%AC%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%A0%81%E7%94%B5%E8%B7%AF.png" title="图片"></li>
+</ol>
+<p><strong>②电路优化</strong></p>
+<ol>
+<li>单输出电路：相同输入端的与非门比与门或者或门速度快</li>
+<li>多输出电路：考虑共享相同乘机项</li>
+<li>多级逻辑电路：<ul>
+<li>提取公因子</li>
+<li>函数分解</li>
+</ul>
+</li>
+</ol>
+<h3 id="3-3-组合逻辑电路竞争冒险"><a href="#3-3-组合逻辑电路竞争冒险" class="headerlink" title="3.3 组合逻辑电路竞争冒险"></a>3.3 组合逻辑电路竞争冒险</h3><ul>
+<li>竞争：在组合电路中，信号经由不同的途径达到某一会合点的时间有先有后，这种现象称为竞争。</li>
+<li>冒险：由于竞争而引起电路输出发生瞬间错误现象称为冒险。表现为输出端出现了原设计中没有的窄脉冲，常称其为毛刺。</li>
+</ul>
+<h4 id="①消除方法"><a href="#①消除方法" class="headerlink" title="①消除方法"></a>①消除方法</h4><ul>
+<li>消除互补项：L=(A + B)(A’ + C)（当B=C=0时L=AA’，将L展开）</li>
+<li>增加乘积项，避免互补项相加:L=AC+BC’（当A=B=1时L=C+C’,根据卡诺图添加冗余项AB）</li>
+<li>输出端并联电容</li>
+</ul>
+<h3 id="3-4-编码器"><a href="#3-4-编码器" class="headerlink" title="3.4 编码器"></a>3.4 编码器</h3><h4 id="①普通编码器"><a href="#①普通编码器" class="headerlink" title="①普通编码器"></a>①普通编码器</h4><div class="tabs" id="fourth-common_4to2"><ul class="nav-tabs"><li class="tab active"><a href="#fourth-common_4to2-1">代码</a></li><li class="tab"><a href="#fourth-common_4to2-2">电路</a></li></ul><div class="tab-content"><div class="tab-pane active" id="fourth-common_4to2-1"><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 4线二线</span></span><br><span class="line"><span class="keyword">module</span> common_4to2(i0,i1,i2,i3,y0,y1);</span><br><span class="line"><span class="keyword">input</span> i1,i2,i3,i0;</span><br><span class="line"><span class="keyword">output</span> y1,y0;</span><br><span class="line"><span class="keyword">assign</span> y0 = i1|i3,y1 = i2|i3;</span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="fourth-common_4to2-2"><p><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/common_4to2%E7%94%B5%E8%B7%AF%E5%9B%BE.png" title="图片"></p></div></div></div>
+
+
+<h4 id="②优先编码器"><a href="#②优先编码器" class="headerlink" title="②优先编码器"></a>②优先编码器</h4><div class="tabs" id="fourth-priority_4to2"><ul class="nav-tabs"><li class="tab active"><a href="#fourth-priority_4to2-1">代码</a></li><li class="tab"><a href="#fourth-priority_4to2-2">电路</a></li></ul><div class="tab-content"><div class="tab-pane active" id="fourth-priority_4to2-1"><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 4线二线</span></span><br><span class="line"><span class="keyword">module</span> priority_4to2(i0,i1,i2,i3,y0,y1);</span><br><span class="line"><span class="keyword">input</span> i0,i1,i2,i3;</span><br><span class="line"><span class="keyword">output</span> y0,y1;</span><br><span class="line"><span class="keyword">assign</span> y0 = i1&amp;~i2|i3,</span><br><span class="line">        y1 = i2|i3;</span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="fourth-priority_4to2-2"><p><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/priority_4to2%E7%94%B5%E8%B7%AF%E5%9B%BE.png" title="图片"></p></div></div></div>
+
+
+
+<h4 id="③编码器的应用"><a href="#③编码器的应用" class="headerlink" title="③编码器的应用"></a>③编码器的应用</h4><ul>
+<li>常用编码器<ul>
+<li>74x147:10线-4线优先编码器，低电平有效</li>
+<li>74x148:8线-3线优先编码器，低电平有效</li>
+<li>CD4532:8线-3线优先编码器，高电平有效</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">CD4532逻辑符号</th>
+<th align="center">引脚图</th>
+<th align="center">功能表</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/CD4532%E9%80%BB%E8%BE%91%E7%AC%A6%E5%8F%B7.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/CD4532%E5%BC%95%E8%84%9A%E5%9B%BE.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/CD4532%E5%8A%9F%E8%83%BD%E8%A1%A8.png" title="图片"></td>
+</tr>
+</tbody></table>
+<h3 id="3-5-译码器"><a href="#3-5-译码器" class="headerlink" title="3.5 译码器"></a>3.5 译码器</h3><h4 id="①二进制译码器"><a href="#①二进制译码器" class="headerlink" title="①二进制译码器"></a>①二进制译码器</h4><ul>
+<li>74x139:2线-4线译码器(双)，低电平有效</li>
+<li>74x138:3线-8线译码器</li>
+<li>74HC138:3线-8线集成电路译码器</li>
+</ul>
+<div class="tabs" id="fourth-二进制译码器"><ul class="nav-tabs"><li class="tab active"><a href="#fourth-二进制译码器-1">代码</a></li><li class="tab"><a href="#fourth-二进制译码器-2">电路</a></li></ul><div class="tab-content"><div class="tab-pane active" id="fourth-二进制译码器-1"><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 2线4线</span></span><br><span class="line"><span class="keyword">module</span> two2to4(e,a0,a1,y0,y1,y2,y3);</span><br><span class="line"><span class="keyword">input</span> a0,a1,e;</span><br><span class="line"><span class="keyword">output</span> y0,y1,y2,y3;</span><br><span class="line"><span class="keyword">assign</span> y0 = ~a1&amp;~a0&amp;e,</span><br><span class="line">    y1 = ~a1&amp;a0&amp;e,</span><br><span class="line">    y2 = a1&amp;~a0&amp;e,</span><br><span class="line">    y3 = a1&amp;a0&amp;e;</span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="fourth-二进制译码器-2"><p><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/2to4%E8%AF%91%E7%A0%81%E5%99%A8%E9%80%BB%E8%BE%91%E5%9B%BE.png" title="图片"></p></div></div></div>
+
+<div class="tabs" id="fourth-常用译码器"><ul class="nav-tabs"><li class="tab active"><a href="#fourth-常用译码器-1">74x139</a></li><li class="tab"><a href="#fourth-常用译码器-2">74HC138</a></li><li class="tab"><a href="#fourth-常用译码器-3">两片74HC138串联</a></li></ul><div class="tab-content"><div class="tab-pane active" id="fourth-常用译码器-1"><table>
+<thead>
+<tr>
+<th align="center">逻辑符号</th>
+<th align="center">逻辑图</th>
+<th align="center">功能表</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/74x139%E9%80%BB%E8%BE%91%E7%AC%A6%E5%8F%B7.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/2to4%E8%AF%91%E7%A0%81%E5%99%A8%E9%80%BB%E8%BE%91%E5%9B%BE.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/74x139%E5%8A%9F%E8%83%BD%E8%A1%A8.png" title="图片"></td>
+</tr>
+</tbody></table></div><div class="tab-pane" id="fourth-常用译码器-2"><table>
+<thead>
+<tr>
+<th align="center">逻辑符号</th>
+<th align="center">逻辑图</th>
+<th align="center">功能表</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/74HC138%E9%80%BB%E8%BE%91%E7%AC%A6%E5%8F%B7.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/74HC138%E9%80%BB%E8%BE%91%E5%9B%BE.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/74HC138%E5%8A%9F%E8%83%BD%E8%A1%A8.png" title="图片"></td>
+</tr>
+</tbody></table></div><div class="tab-pane" id="fourth-常用译码器-3"><p><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E4%B8%A4%E7%89%8774HC138.png" title="图片"></p></div></div></div>
+
+
+<h4 id="②二-十进制译码器"><a href="#②二-十进制译码器" class="headerlink" title="②二-十进制译码器"></a>②二-十进制译码器</h4><ul>
+<li>略</li>
+</ul>
+<h4 id="③显示译码器"><a href="#③显示译码器" class="headerlink" title="③显示译码器"></a>③显示译码器</h4><ul>
+<li>由译码驱动器和数码显示器组成</li>
+<li>74HC4511（高电平有效）</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">74HC4511逻辑符号</th>
+<th align="center">功能表</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/74HC4511%E9%80%BB%E8%BE%91%E5%9B%BE.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/74HC4511%E5%8A%9F%E8%83%BD%E8%A1%A8.png" title="图片"></td>
+</tr>
+</tbody></table>
+<h4 id="④-锁存器"><a href="#④-锁存器" class="headerlink" title="④ 锁存器"></a>④ 锁存器</h4><ul>
+<li>静态显示电路</li>
+<li>动态扫描显示电路</li>
+</ul>
+<h3 id="3-6-数据分配器"><a href="#3-6-数据分配器" class="headerlink" title="3.6 数据分配器"></a>3.6 数据分配器</h3><ul>
+<li>可用译码器实现数据分配器</li>
+</ul>
+<h3 id="3-7-数据选择器"><a href="#3-7-数据选择器" class="headerlink" title="3.7 数据选择器"></a>3.7 数据选择器</h3><h4 id="①二选一数据选择器"><a href="#①二选一数据选择器" class="headerlink" title="①二选一数据选择器"></a>①二选一数据选择器</h4><p><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E4%BA%8C%E9%80%89%E4%B8%80%E6%95%B0%E6%8D%AE%E9%80%89%E6%8B%A9%E5%99%A8%E5%9B%BE.png" title="图片"></p>
+<h4 id="②四选一数据选择器"><a href="#②四选一数据选择器" class="headerlink" title="②四选一数据选择器"></a>②四选一数据选择器</h4><p><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E5%9B%9B%E9%80%89%E4%B8%80%E6%95%B0%E6%8D%AE%E9%80%89%E6%8B%A9%E5%99%A8%E5%9B%BE.png" title="图片"></p>
+<h4 id="③常用集成电路数据选择器"><a href="#③常用集成电路数据选择器" class="headerlink" title="③常用集成电路数据选择器"></a>③常用集成电路数据选择器</h4><ul>
+<li>74x157:有4个二选一</li>
+<li>74x153:双4选1数据选择器</li>
+<li>74x253:双4选1数据选择器（带有三态输出）</li>
+<li>74x151:8选1数据选择器</li>
+<li>74x251:8选1数据选择器（带有三态输出）</li>
+</ul>
+<h3 id="3-8-数值比较器"><a href="#3-8-数值比较器" class="headerlink" title="3.8 数值比较器"></a>3.8 数值比较器</h3><h4 id="①一位数值比较器"><a href="#①一位数值比较器" class="headerlink" title="①一位数值比较器"></a>①一位数值比较器</h4><ul>
+<li>F(A&gt;B):AB’</li>
+<li>F(A&lt;B):A’B</li>
+<li>F(A=B):A’B’+AB = (AB’+A’B)’</li>
+</ul>
+<h4 id="②两位数值比较器"><a href="#②两位数值比较器" class="headerlink" title="②两位数值比较器"></a>②两位数值比较器</h4><table>
+<thead>
+<tr>
+<th align="center">真值表</th>
+<th align="center">表达式</th>
+<th align="center">逻辑图</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E4%B8%A4%E4%BD%8D%E6%95%B0%E5%80%BC%E6%AF%94%E8%BE%83%E5%99%A8%E7%9C%9F%E5%80%BC%E8%A1%A8.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E4%B8%A4%E4%BD%8D%E6%95%B0%E5%80%BC%E6%AF%94%E8%BE%83%E5%99%A8%E8%A1%A8%E8%BE%BE%E5%BC%8F.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E4%B8%A4%E4%BD%8D%E6%95%B0%E5%80%BC%E6%AF%94%E8%BE%83%E5%99%A8%E9%80%BB%E8%BE%91%E5%9B%BE.png" title="图片"></td>
+</tr>
+</tbody></table>
+<h4 id="③数值比较器应用"><a href="#③数值比较器应用" class="headerlink" title="③数值比较器应用"></a>③数值比较器应用</h4><ul>
+<li>74HC85</li>
+<li>功能表：<br><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/74HC85%E5%8A%9F%E8%83%BD%E8%A1%A8.png" title="图片"></li>
+<li>位扩展</li>
+<li><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/74HC85%E4%BD%8D%E6%89%A9%E5%B1%95.png" title="图片"></li>
+<li>位扩展16位优化</li>
+<li><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/74HC85%E6%89%A9%E5%B1%9516%E4%BD%8D%E4%BC%98%E5%8C%96.png" title="图片"></li>
+</ul>
+<h4 id="④加法器"><a href="#④加法器" class="headerlink" title="④加法器"></a>④加法器</h4><ul>
+<li><p>半加器</p>
+</li>
+<li><p>全加器</p>
+<table>
+<thead>
+<tr>
+<th align="center">真值表</th>
+<th align="center">表达式</th>
+<th align="center">逻辑图</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E5%85%A8%E5%8A%A0%E5%99%A8%E7%9C%9F%E5%80%BC%E8%A1%A8.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E5%85%A8%E5%8A%A0%E5%99%A8%E9%80%BB%E8%BE%91%E8%A1%A8%E8%BE%BE%E5%BC%8F.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E5%85%A8%E5%8A%A0%E5%99%A8%E9%80%BB%E8%BE%91%E5%9B%BE.png" title="图片"></td>
+</tr>
+</tbody></table>
+</li>
+<li><p>超前进位加法器</p>
+</li>
+</ul>
+<h2 id="4-锁存器和触发器"><a href="#4-锁存器和触发器" class="headerlink" title="4. 锁存器和触发器"></a>4. 锁存器和触发器</h2><h3 id="4-1-基本双稳态电路"><a href="#4-1-基本双稳态电路" class="headerlink" title="4.1 基本双稳态电路"></a>4.1 基本双稳态电路</h3><ul>
+<li><p><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E5%9F%BA%E6%9C%AC%E5%8F%8C%E7%A8%B3%E6%80%81%E8%A7%A6%E5%8F%91%E5%99%A81.png" title="图片"></p>
+</li>
+<li><p><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E5%9F%BA%E6%9C%AC%E5%8F%8C%E7%A8%B3%E6%80%81%E8%A7%A6%E5%8F%91%E5%99%A82.png" title="图片"></p>
+</li>
+</ul>
+<h3 id="4-2-SR锁存器"><a href="#4-2-SR锁存器" class="headerlink" title="4.2 SR锁存器"></a>4.2 SR锁存器</h3><ul>
+<li><p>或非门实现</p>
+<table>
+<thead>
+<tr>
+<th align="center">SR锁存器逻辑图</th>
+<th align="center">功能表</th>
+<th align="center">逻辑符号</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/SR%E9%94%81%E5%AD%98%E5%99%A8%E5%9B%BE.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/SR%E5%8A%9F%E8%83%BD%E8%A1%A8.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/SR%E9%80%BB%E8%BE%91%E7%AC%A6%E5%8F%B7.png" title="图片"></td>
+</tr>
+</tbody></table>
+</li>
+<li><p>与非门实现</p>
+<table>
+<thead>
+<tr>
+<th align="center">SR锁存器逻辑图</th>
+<th align="center">功能表</th>
+<th align="center">等效逻辑图</th>
+<th align="center">常用逻辑符号</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E4%B8%8E%E9%9D%9E%E9%97%A8%E5%AE%9E%E7%8E%B0SR.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/SR%E4%B8%8E%E9%9D%9E%E9%97%A8%E5%8A%9F%E8%83%BD%E8%A1%A8.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E4%B8%8E%E9%9D%9E%E9%97%A8%E5%AE%9E%E7%8E%B0SR%E7%AD%89%E6%95%88%E9%80%BB%E8%BE%91%E5%9B%BE.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E4%B8%8E%E9%9D%9E%E9%97%A8%E5%AE%9E%E7%8E%B0SR%E5%B8%B8%E7%94%A8%E9%80%BB%E8%BE%91%E7%AC%A6%E5%8F%B7.png" title="图片"></td>
+</tr>
+</tbody></table>
+</li>
+<li><p>门控SR锁存器</p>
+<ul>
+<li>令输入信号在某一时刻起作用<table>
+<thead>
+<tr>
+<th align="center">逻辑图</th>
+<th align="center">功能表</th>
+<th align="center">逻辑符号</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E9%97%A8%E6%8E%A7SR%E9%94%81%E5%AD%98%E5%99%A8%E9%80%BB%E8%BE%91%E5%9B%BE.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E9%97%A8%E6%8E%A7SR%E9%94%81%E5%AD%98%E5%99%A8%E5%8A%9F%E8%83%BD%E8%A1%A8.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E9%97%A8%E6%8E%A7SR%E9%94%81%E5%AD%98%E5%99%A8%E9%80%BB%E8%BE%91%E7%AC%A6%E5%8F%B7.png" title="图片"></td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-3-D锁存器"><a href="#4-3-D锁存器" class="headerlink" title="4.3 D锁存器"></a>4.3 D锁存器</h3><ul>
+<li><p>逻辑门控D锁存器</p>
+<table>
+<thead>
+<tr>
+<th align="center">逻辑图</th>
+<th align="center">功能表</th>
+<th align="center">逻辑符号</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E9%80%BB%E8%BE%91%E9%97%A8%E6%8E%A7D%E9%94%81%E5%AD%98%E5%99%A8%E9%80%BB%E8%BE%91%E5%9B%BE.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E9%80%BB%E8%BE%91%E9%97%A8%E6%8E%A7D%E9%94%81%E5%AD%98%E5%99%A8%E5%8A%9F%E8%83%BD%E8%A1%A8.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E9%80%BB%E8%BE%91%E9%97%A8%E6%8E%A7D%E9%94%81%E5%AD%98%E5%99%A8%E9%80%BB%E8%BE%91%E7%AC%A6%E5%8F%B7.png" title="图片"></td>
+</tr>
+</tbody></table>
+</li>
+<li><p>传输门控D锁存器</p>
+<table>
+<thead>
+<tr>
+<th align="center">逻辑图</th>
+<th align="center">功能表</th>
+<th align="center">逻辑符号</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E4%BC%A0%E8%BE%93%E9%97%A8%E6%8E%A7D%E9%94%81%E5%AD%98%E5%99%A8%E9%80%BB%E8%BE%91%E5%9B%BE.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E9%80%BB%E8%BE%91%E9%97%A8%E6%8E%A7D%E9%94%81%E5%AD%98%E5%99%A8%E5%8A%9F%E8%83%BD%E8%A1%A8.png" title="图片"></td>
+<td align="center">与逻辑门控D相同</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>动态特性</p>
+<ul>
+<li>tpLH(D-Q)：Q从低到高时，D的延迟时间</li>
+<li>tpHL(D-Q)：Q从高到低时，D的延迟时间</li>
+<li>tsu：建立时间，D信号在E有效跳变沿到来之前必须稳定不变的最小时间</li>
+<li>tH：保持时间，D信号在E有效跳变沿到来之后必须稳定不变的最小时间</li>
+<li>tw：脉冲宽度的最小值</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-4-触发器电路结构和工作原理"><a href="#4-4-触发器电路结构和工作原理" class="headerlink" title="4.4 触发器电路结构和工作原理"></a>4.4 触发器电路结构和工作原理</h3><ul>
+<li>锁存器为电平触发，触发器为边沿触发</li>
+</ul>
+<ol>
+<li><p>主从D触发器</p>
+<table>
+<thead>
+<tr>
+<th align="center">原理性框图</th>
+<th align="center">传输门控D锁存器实现</th>
+<th align="center">逻辑符号</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E4%B8%BB%E4%BB%8ED%E8%A7%A6%E5%8F%91%E5%99%A8%E9%80%BB%E8%BE%91%E5%9B%BE.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E4%BC%A0%E8%BE%93%E9%97%A8%E6%8E%A7D%E9%94%81%E5%AD%98%E5%99%A8%E5%AE%9E%E7%8E%B0%E4%B8%BB%E4%BB%8ED%E8%A7%A6%E5%8F%91%E5%99%A8.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E4%B8%BB%E4%BB%8ED%E8%A7%A6%E5%8F%91%E5%99%A8%E9%80%BB%E8%BE%91%E7%AC%A6%E5%8F%B7.png" title="图片"></td>
+</tr>
+</tbody></table>
+<ul>
+<li>加入异步输入端<table>
+<thead>
+<tr>
+<th align="center">逻辑图</th>
+<th align="center">功能表</th>
+<th align="center">逻辑符号</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E5%BC%82%E6%AD%A5%E8%BE%93%E5%85%A5%E7%AB%AF%E9%80%BB%E8%BE%91%E5%9B%BE.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E5%BC%82%E6%AD%A5%E8%BE%93%E5%85%A5%E7%AB%AF%E5%8A%9F%E8%83%BD%E8%A1%A8.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E5%BC%82%E6%AD%A5%E8%BE%93%E5%85%A5%E7%AB%AF%E9%80%BB%E8%BE%91%E7%AC%A6%E5%8F%B7.png" title="图片"></td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+</li>
+<li><p>维持阻塞D触发器<br><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E7%BB%B4%E6%8C%81%E9%98%BB%E5%A1%9ED%E8%A7%A6%E5%8F%91%E5%99%A8.png" title="图片"></p>
+<h3 id="4-5-触发器的逻辑功能"><a href="#4-5-触发器的逻辑功能" class="headerlink" title="4.5 触发器的逻辑功能"></a>4.5 触发器的逻辑功能</h3></li>
+</ol>
+<ul>
+<li><p>D触发器</p>
+<ul>
+<li>特性方程<img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/D%E8%A7%A6%E5%8F%91%E5%99%A8%E7%89%B9%E6%80%A7%E6%96%B9%E7%A8%8B.png" title="图片"></li>
+</ul>
+</li>
+<li><p>jk触发器</p>
+<table>
+<thead>
+<tr>
+<th align="center">逻辑符号</th>
+<th align="center">特性表</th>
+<th align="center">状态图</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/jk%E8%A7%A6%E5%8F%91%E5%99%A8%E9%80%BB%E8%BE%91%E7%AC%A6%E5%8F%B7.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/jk%E8%A7%A6%E5%8F%91%E5%99%A8%E7%89%B9%E6%80%A7%E8%A1%A8.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/jk%E8%A7%A6%E5%8F%91%E5%99%A8%E7%8A%B6%E6%80%81%E5%9B%BE.png" title="图片"></td>
+</tr>
+</tbody></table>
+<ul>
+<li>特性方程<img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/jk%E8%A7%A6%E5%8F%91%E5%99%A8%E7%89%B9%E6%80%A7%E6%96%B9%E7%A8%8B.png" title="图片"></li>
+</ul>
+</li>
+<li><p>T触发器</p>
+<table>
+<thead>
+<tr>
+<th align="center">逻辑符号</th>
+<th align="center">特性表</th>
+<th align="center">状态图</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/T%E8%A7%A6%E5%8F%91%E5%99%A8%E9%80%BB%E8%BE%91%E7%AC%A6%E5%8F%B7.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/T%E8%A7%A6%E5%8F%91%E5%99%A8%E7%89%B9%E6%80%A7%E8%A1%A8.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/T%E8%A7%A6%E5%8F%91%E5%99%A8%E7%8A%B6%E6%80%81%E5%9B%BE.png" title="图片"></td>
+</tr>
+</tbody></table>
+<ul>
+<li>特性方程<img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/T%E8%A7%A6%E5%8F%91%E5%99%A8%E7%89%B9%E6%80%A7%E6%96%B9%E7%A8%8B.png" title="图片"></li>
+</ul>
+</li>
+<li><p>SR触发器</p>
+<table>
+<thead>
+<tr>
+<th align="center">逻辑符号</th>
+<th align="center">特性表</th>
+<th align="center">状态图</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/SR%E8%A7%A6%E5%8F%91%E5%99%A8%E9%80%BB%E8%BE%91%E7%AC%A6%E5%8F%B7.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/SR%E8%A7%A6%E5%8F%91%E5%99%A8%E7%89%B9%E6%80%A7%E8%A1%A8.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/SR%E8%A7%A6%E5%8F%91%E5%99%A8%E7%8A%B6%E6%80%81%E5%9B%BE.png" title="图片"></td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h2 id="5-时序逻辑电路"><a href="#5-时序逻辑电路" class="headerlink" title="5.时序逻辑电路"></a>5.时序逻辑电路</h2><h3 id="5-1-基本概念"><a href="#5-1-基本概念" class="headerlink" title="5.1 基本概念"></a>5.1 基本概念</h3><ul>
+<li>时序逻辑电路<ul>
+<li>含有锁存器或触发器的电路为时序逻辑电路</li>
+<li>时序逻辑电路动作特点分类<ul>
+<li>同步时序电路</li>
+<li>异步时序电路(状态更新不是同一时刻)</li>
+</ul>
+</li>
+<li>输出信号特点分类<ul>
+<li>米利型电路(输出与输入变量有直接关系)</li>
+<li>穆尔型电路(输出只取决于触发器状态)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>描述时序逻辑电路的方法<ol>
+<li>方程<ul>
+<li>激励方程</li>
+<li>输出方程</li>
+<li>状态方程</li>
+</ul>
+</li>
+<li>图表<ul>
+<li>状态转换表</li>
+<li>状态转换图</li>
+<li>时序图</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>例子<table>
+<thead>
+<tr>
+<th align="center">逻辑图</th>
+<th align="center">方程组</th>
+<th align="center">状态转换表</th>
+<th align="center">状态转换图</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E6%97%B6%E5%BA%8F%E9%80%BB%E8%BE%91%E6%8F%8F%E8%BF%B0%E6%96%B9%E6%B3%95%E4%B8%BE%E4%BE%8B%E9%80%BB%E8%BE%91%E5%9B%BE.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E6%97%B6%E5%BA%8F%E9%80%BB%E8%BE%91%E6%8F%8F%E8%BF%B0%E6%96%B9%E6%B3%95%E4%B8%BE%E4%BE%8B%E6%96%B9%E7%A8%8B%E7%BB%84.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E6%97%B6%E5%BA%8F%E9%80%BB%E8%BE%91%E6%8F%8F%E8%BF%B0%E6%96%B9%E6%B3%95%E4%B8%BE%E4%BE%8B%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2%E8%A1%A8.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E6%97%B6%E5%BA%8F%E9%80%BB%E8%BE%91%E6%8F%8F%E8%BF%B0%E6%96%B9%E6%B3%95%E4%B8%BE%E4%BE%8B%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2%E5%9B%BE.png" title="图片"></td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h3 id="5-2-同步时序逻辑电路分析"><a href="#5-2-同步时序逻辑电路分析" class="headerlink" title="5.2 同步时序逻辑电路分析"></a>5.2 同步时序逻辑电路分析</h3><ul>
+<li>列写方程<ol>
+<li>激励方程 </li>
+<li>状态方程</li>
+<li>输出方程</li>
+</ol>
+</li>
+<li>列图表<ol>
+<li>状态表</li>
+<li>状态图</li>
+<li>时序图</li>
+</ol>
+</li>
+<li>确定功能</li>
+</ul>
+<h3 id="5-3-同步时序逻辑电路设计"><a href="#5-3-同步时序逻辑电路设计" class="headerlink" title="5.3 同步时序逻辑电路设计"></a>5.3 同步时序逻辑电路设计</h3><p><strong>问题:</strong> 用D触发器设计一个8421BCD码同步十进制加计数器</p>
+<ol>
+<li><p>逻辑抽象得出状态转换图或状态转换表</p>
+<ul>
+<li><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E8%AE%BE%E8%AE%A1%E5%90%8C%E6%AD%A5%E6%97%B6%E5%BA%8F1%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2%E8%A1%A8.png" title="图片"></li>
+</ul>
+</li>
+<li><p>状态化简</p>
+<table>
+<thead>
+<tr>
+<th align="center">卡诺图</th>
+<th align="center">D0</th>
+<th align="center">D1</th>
+<th align="center">D2</th>
+<th align="center">D3</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">卡诺图</td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E8%AE%BE%E8%AE%A1%E5%90%8C%E6%AD%A5%E6%97%B6%E5%BA%8F1D0%E5%8D%A1%E8%AF%BA%E5%9B%BE.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E8%AE%BE%E8%AE%A1%E5%90%8C%E6%AD%A5%E6%97%B6%E5%BA%8F1D1%E5%8D%A1%E8%AF%BA%E5%9B%BE.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E8%AE%BE%E8%AE%A1%E5%90%8C%E6%AD%A5%E6%97%B6%E5%BA%8F1D2%E5%8D%A1%E8%AF%BA%E5%9B%BE.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E8%AE%BE%E8%AE%A1%E5%90%8C%E6%AD%A5%E6%97%B6%E5%BA%8F1D3%E5%8D%A1%E8%AF%BA%E5%9B%BE.png" title="图片"></td>
+</tr>
+<tr>
+<td align="center">表达式</td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E8%AE%BE%E8%AE%A1%E5%90%8C%E6%AD%A5%E6%97%B6%E5%BA%8F1D0%E8%A1%A8%E8%BE%BE%E5%BC%8F.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E8%AE%BE%E8%AE%A1%E5%90%8C%E6%AD%A5%E6%97%B6%E5%BA%8F1D1%E8%A1%A8%E8%BE%BE%E5%BC%8F.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E8%AE%BE%E8%AE%A1%E5%90%8C%E6%AD%A5%E6%97%B6%E5%BA%8F1D2%E8%A1%A8%E8%BE%BE%E5%BC%8F.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E8%AE%BE%E8%AE%A1%E5%90%8C%E6%AD%A5%E6%97%B6%E5%BA%8F1D3%E8%A1%A8%E8%BE%BE%E5%BC%8F.png" title="图片"></td>
+</tr>
+</tbody></table>
+</li>
+<li><p>状态分配<br>2^4 &gt; 10 #10种状态用四个触发器</p>
+</li>
+<li><p>选择触发器类型<br>选择D</p>
+</li>
+<li><p>确定激励方程和输出方程</p>
+</li>
+<li><p>画出逻辑图<br><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E8%AE%BE%E8%AE%A1%E5%90%8C%E6%AD%A5%E6%97%B6%E5%BA%8F1%E7%94%B5%E8%B7%AF%E5%9B%BE.png" title="图片"></p>
+</li>
+<li><p>检查自启动功能<br><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E8%AE%BE%E8%AE%A1%E5%90%8C%E6%AD%A5%E6%97%B6%E5%BA%8F1%E6%A3%80%E6%9F%A5%E8%87%AA%E5%90%AF%E5%8A%A8.png" title="图片"></p>
+</li>
+</ol>
+<h3 id="5-4-异步时序逻辑电路分析"><a href="#5-4-异步时序逻辑电路分析" class="headerlink" title="5.4 异步时序逻辑电路分析"></a>5.4 异步时序逻辑电路分析</h3><h4 id="①-基本步骤"><a href="#①-基本步骤" class="headerlink" title="① 基本步骤"></a>① 基本步骤</h4><p><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E5%BC%82%E6%AD%A5%E6%97%B6%E5%BA%8F%E9%80%BB%E8%BE%91%E7%94%B5%E8%B7%AF%E5%88%86%E6%9E%90%E6%AD%A5%E9%AA%A4.png" title="图片"></p>
+<h4 id="②-例子"><a href="#②-例子" class="headerlink" title="② 例子"></a>② 例子</h4><ul>
+<li><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E5%BC%82%E6%AD%A5%E6%97%B6%E5%BA%8F%E9%80%BB%E8%BE%91%E7%94%B5%E8%B7%AF%E5%88%86%E6%9E%90%E4%B8%BE%E4%BE%8B1%E7%94%B5%E8%B7%AF%E5%9B%BE.png" title="图片"></li>
+</ul>
+<ol>
+<li>写出电路方程<br><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E5%BC%82%E6%AD%A5%E6%97%B6%E5%BA%8F%E9%80%BB%E8%BE%91%E7%94%B5%E8%B7%AF%E5%88%86%E6%9E%90%E4%B8%BE%E4%BE%8B1%E7%94%B5%E8%B7%AF%E6%96%B9%E7%A8%8B.png" title="图片"></li>
+<li>列图表<table>
+<thead>
+<tr>
+<th align="center">状态转换表</th>
+<th align="center">状态图</th>
+<th align="center">时序图</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E5%BC%82%E6%AD%A5%E6%97%B6%E5%BA%8F%E9%80%BB%E8%BE%91%E7%94%B5%E8%B7%AF%E5%88%86%E6%9E%90%E4%B8%BE%E4%BE%8B1%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2%E8%A1%A8.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E5%BC%82%E6%AD%A5%E6%97%B6%E5%BA%8F%E9%80%BB%E8%BE%91%E7%94%B5%E8%B7%AF%E5%88%86%E6%9E%90%E4%B8%BE%E4%BE%8B1%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2%E5%9B%BE.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E5%BC%82%E6%AD%A5%E6%97%B6%E5%BA%8F%E9%80%BB%E8%BE%91%E7%94%B5%E8%B7%AF%E5%88%86%E6%9E%90%E4%B8%BE%E4%BE%8B1%E6%B3%A2%E5%BD%A2%E5%9B%BE.png" title="图片"></td>
+</tr>
+</tbody></table>
+</li>
+</ol>
+<h3 id="5-5-寄存器和移位寄存器"><a href="#5-5-寄存器和移位寄存器" class="headerlink" title="5.5 寄存器和移位寄存器"></a>5.5 寄存器和移位寄存器</h3><p>74HC/HCT194</p>
+<table>
+<thead>
+<tr>
+<th align="center">电路图</th>
+<th align="center">功能表</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/74HC_HCT194.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/74HC_HCT194%E5%8A%9F%E8%83%BD%E8%A1%A8.png" title="图片"></td>
+</tr>
+</tbody></table>
+<h3 id="5-6-计数器概念和异步二进制计数器"><a href="#5-6-计数器概念和异步二进制计数器" class="headerlink" title="5.6 计数器概念和异步二进制计数器"></a>5.6 计数器概念和异步二进制计数器</h3><ul>
+<li>计数器分类<br><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/%E8%AE%A1%E6%95%B0%E5%99%A8%E5%88%86%E7%B1%BB.png" title="图片"></li>
+</ul>
+<h4 id="①-4位异步二进制加计数器工作原理"><a href="#①-4位异步二进制加计数器工作原理" class="headerlink" title="① 4位异步二进制加计数器工作原理"></a>① 4位异步二进制加计数器工作原理</h4><ol>
+<li>用T`触发器构成<br><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/4%E4%BD%8D%E5%BC%82%E6%AD%A5%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%8A%A0%E8%AE%A1%E6%95%B0%E5%99%A8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86.png" title="图片"></li>
+<li>波形图<br><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/4%E4%BD%8D%E5%BC%82%E6%AD%A5%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%8A%A0%E8%AE%A1%E6%95%B0%E5%99%A8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E6%B3%A2%E5%BD%A2%E5%9B%BE.png" title="图片"></li>
+</ol>
+<h3 id="5-7-同步二级制计数器"><a href="#5-7-同步二级制计数器" class="headerlink" title="5.7 同步二级制计数器"></a>5.7 同步二级制计数器</h3><h4 id="①四位同步二进制加计数器"><a href="#①四位同步二进制加计数器" class="headerlink" title="①四位同步二进制加计数器"></a>①四位同步二进制加计数器</h4><table>
+<thead>
+<tr>
+<th align="center">激励方程</th>
+<th align="center">逻辑图</th>
+<th align="center">波形图</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/4%E4%BD%8D%E5%90%8C%E6%AD%A5%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%8A%A0%E8%AE%A1%E6%95%B0%E5%99%A8%E6%BF%80%E5%8A%B1%E6%96%B9%E7%A8%8B.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/4%E4%BD%8D%E5%90%8C%E6%AD%A5%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%8A%A0%E8%AE%A1%E6%95%B0%E5%99%A8%E9%80%BB%E8%BE%91%E5%9B%BE.png" title="图片"></td>
+<td align="center"><img src="/images/%E6%95%B0%E5%AD%97%E7%94%B5%E5%AD%90/4%E4%BD%8D%E5%90%8C%E6%AD%A5%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%8A%A0%E8%AE%A1%E6%95%B0%E5%99%A8%E6%97%B6%E5%BA%8F%E5%9B%BE.png" title="图片"></td>
+</tr>
+</tbody></table>
+<h4 id="②74LVC161"><a href="#②74LVC161" class="headerlink" title="②74LVC161"></a>②74LVC161</h4><h3 id="5-8-计数器应用"><a href="#5-8-计数器应用" class="headerlink" title="5.8 计数器应用"></a>5.8 计数器应用</h3><ul>
+<li>用74LVC161构成9进制加计数器</li>
+</ul>
+<h2 id="6-verilog"><a href="#6-verilog" class="headerlink" title="6.verilog"></a>6.verilog</h2><h2 id="7-逻辑门电路"><a href="#7-逻辑门电路" class="headerlink" title="7.逻辑门电路"></a>7.逻辑门电路</h2><h3 id="7-1-简介"><a href="#7-1-简介" class="headerlink" title="7.1 简介"></a>7.1 简介</h3><ul>
+<li><p>分类</p>
+<ul>
+<li><p>MOS</p>
+<ul>
+<li>NMOS</li>
+<li>PMOS</li>
+<li>CMOS<ul>
+<li>4000系列与ttl不兼容</li>
+<li>HC/HCT系列速度快与ttl兼容</li>
+<li>AHC/AHCT速度快HC2倍</li>
+<li>lVC低电压</li>
+<li>AUC超低电压</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>双极型</p>
+<ul>
+<li>TTL<ul>
+<li>SN74/54系列（早期）</li>
+<li>54/74HC00<ul>
+<li>HC表示不同系列</li>
+<li>00表示四个两输入与非门</li>
+<li>54温度范围更宽，测试更严格</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>ECL</li>
+</ul>
+</li>
+<li><p>混合型</p>
+<ul>
+<li>BiCMOS</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="7-2-MOS管"><a href="#7-2-MOS管" class="headerlink" title="7.2 MOS管"></a>7.2 MOS管</h3><ul>
+<li>分类<ul>
+<li>增强型<ul>
+<li>N沟道</li>
+<li>P沟道</li>
+</ul>
+</li>
+<li>耗尽型<ul>
+<li>N沟道</li>
+<li>P沟道</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="8-半导体存储器"><a href="#8-半导体存储器" class="headerlink" title="8. 半导体存储器"></a>8. 半导体存储器</h2><h3 id="8-1-存储器分类"><a href="#8-1-存储器分类" class="headerlink" title="8.1 存储器分类"></a>8.1 存储器分类</h3><ul>
+<li><p>易失性RAM</p>
+</li>
+<li><p>非易失性Rom</p>
+<ul>
+<li>固定ROM</li>
+<li>可编程ROM<ul>
+<li>一次可编程ROM(PROM)</li>
+<li>光可擦除可编程ROM(EPROM)用紫外线照射</li>
+<li>光可擦除可编程ROM(EEPROM)</li>
+<li>闪存flash memory</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/06/08/%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95/" rel="prev" title="算法">
+                  <i class="fa fa-chevron-left"></i> 算法
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/06/15/%E8%AF%AD%E6%B3%95%E5%9F%BA%E7%A1%80/python/" rel="next" title="python">
+                  python <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+<script src="/js/comments.js"></script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">东</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="https://cdn.jsdelivr.net/npm/ribbon.js@1.0.2/dist/ribbon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  <script class="next-config" data-name="nprogress" type="application/json">{&quot;enable&quot;:true,&quot;spinner&quot;:true}</script>
+  <script src="/js/third-party/nprogress.js"></script>
+
+  
+
+
+
+
+
+</body>
+</html>
